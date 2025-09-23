@@ -1,0 +1,3 @@
+com\riyada\userservice\UserServiceApplication.class
+com\riyada\userservice\config\JwtConfig.class
+com\riyada\userservice\config\SecurityConfig.class
