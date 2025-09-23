@@ -1,3 +1,10 @@
+com\riyada\userservice\dto\UserUpdateDTO.class
+com\riyada\userservice\dto\UserRegistrationDTO.class
+com\riyada\userservice\entity\User.class
+com\riyada\userservice\service\UserService.class
 com\riyada\userservice\UserServiceApplication.class
 com\riyada\userservice\config\JwtConfig.class
 com\riyada\userservice\config\SecurityConfig.class
+com\riyada\userservice\repository\UserRepository.class
+com\riyada\userservice\dto\UserResponseDTO.class
+com\riyada\userservice\util\UserMapper.class
