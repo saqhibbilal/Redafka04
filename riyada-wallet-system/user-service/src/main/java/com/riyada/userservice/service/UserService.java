@@ -1,8 +1,12 @@
 package com.riyada.userservice.service;
 
+import com.riyada.userservice.config.JwtConfig;
+import com.riyada.userservice.dto.LoginResponseDTO;
+import com.riyada.userservice.dto.UserLoginDTO;
 import com.riyada.userservice.entity.User;
 import com.riyada.userservice.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +25,12 @@ public class UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private JwtConfig jwtConfig;
+
+    @Value("${jwt.expiration}")
+    private Long jwtExpiration;
+
     /**
      * Create a new user
      */
@@ -35,6 +45,39 @@ public class UserService {
         user.setIsActive(true);
 
         return userRepository.save(user);
+    }
+
+    /**
+     * Authenticate user and generate JWT token
+     */
+    @Transactional(readOnly = true)
+    public LoginResponseDTO loginUser(UserLoginDTO loginDTO) {
+        // Find user by email
+        Optional<User> userOptional = getActiveUserByEmail(loginDTO.getEmail());
+
+        if (userOptional.isEmpty()) {
+            throw new RuntimeException("Invalid email or password");
+        }
+
+        User user = userOptional.get();
+
+        // Verify password
+        if (!passwordEncoder.matches(loginDTO.getPassword(), user.getPasswordHash())) {
+            throw new RuntimeException("Invalid email or password");
+        }
+
+        // Generate JWT token
+        String token = jwtConfig.generateToken(user.getEmail(), user.getId().toString());
+
+        // Create and return login response
+        return new LoginResponseDTO(
+                token,
+                "Bearer",
+                jwtExpiration,
+                user.getId(),
+                user.getEmail(),
+                user.getFirstName(),
+                user.getLastName());
     }
 
     /**

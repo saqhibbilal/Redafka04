@@ -1,1 +1,4 @@
+com\riyada\userservice\config\TestSecurityConfig.class
+com\riyada\userservice\integration\UserRegistrationIntegrationTest.class
+com\riyada\userservice\controller\UserControllerTest.class
 com\riyada\userservice\UserServiceApplicationTests.class

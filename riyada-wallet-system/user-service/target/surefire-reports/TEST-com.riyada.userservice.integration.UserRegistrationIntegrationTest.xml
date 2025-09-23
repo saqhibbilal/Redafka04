@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.riyada.userservice.UserServiceApplicationTests" time="4.217" tests="1" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.riyada.userservice.integration.UserRegistrationIntegrationTest" time="8.67" tests="2" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="21"/>
     <property name="sun.cpu.isalist" value="amd64"/>
@@ -47,7 +47,7 @@
     <property name="localRepository" value="C:\Users\USER\.m2\repository"/>
     <property name="java.vendor.url.bug" value="https://bugreport.java.com/bugreport/"/>
     <property name="java.io.tmpdir" value="C:\Users\USER\AppData\Local\Temp\"/>
-    <property name="com.zaxxer.hikari.pool_number" value="2"/>
+    <property name="com.zaxxer.hikari.pool_number" value="1"/>
     <property name="java.version" value="21.0.2"/>
     <property name="user.dir" value="C:\Users\USER\Desktop\trioes\Riyada\riyada-wallet-system\user-service"/>
     <property name="os.arch" value="amd64"/>
@@ -65,10 +65,10 @@
     <property name="java.class.version" value="65.0"/>
     <property name="LOGGED_APPLICATION_NAME" value="[user-service] "/>
   </properties>
-  <testcase name="contextLoads" classname="com.riyada.userservice.UserServiceApplicationTests" time="0.014">
-    <system-out><![CDATA[2025-09-23T13:42:57.394+05:30  INFO 14880 --- [user-service] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.riyada.userservice.UserServiceApplicationTests]: UserServiceApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-2025-09-23T13:42:57.436+05:30  INFO 14880 --- [user-service] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.riyada.userservice.UserServiceApplication for test class com.riyada.userservice.UserServiceApplicationTests
-2025-09-23T13:42:57.465+05:30  INFO 14880 --- [user-service] [           main] o.s.b.d.r.RestartApplicationListener     : Restart disabled due to context in which it is running
+  <testcase name="testUserRegistration_CompleteFlow" classname="com.riyada.userservice.integration.UserRegistrationIntegrationTest" time="0.883">
+    <system-out><![CDATA[2025-09-23T13:42:48.710+05:30  INFO 14880 --- [user-service] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.riyada.userservice.integration.UserRegistrationIntegrationTest]: UserRegistrationIntegrationTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2025-09-23T13:42:48.788+05:30  INFO 14880 --- [user-service] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.riyada.userservice.UserServiceApplication for test class com.riyada.userservice.integration.UserRegistrationIntegrationTest
+2025-09-23T13:42:48.811+05:30  INFO 14880 --- [user-service] [           main] o.s.b.d.r.RestartApplicationListener     : Restart disabled due to context in which it is running
 
   .   ____          _            __ _ _
  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
@@ -78,25 +78,25 @@
  =========|_|==============|___/=/_/_/_/
  :: Spring Boot ::                (v3.2.0)
 
-2025-09-23T13:42:58.690+05:30  INFO 14880 --- [user-service] [           main] c.r.u.UserServiceApplicationTests        : Starting UserServiceApplicationTests using Java 21.0.2 with PID 14880 (started by USER in C:\Users\USER\Desktop\trioes\Riyada\riyada-wallet-system\user-service)
-2025-09-23T13:42:58.690+05:30 DEBUG 14880 --- [user-service] [           main] c.r.u.UserServiceApplicationTests        : Running with Spring Boot v3.2.0, Spring v6.1.1
-2025-09-23T13:42:58.690+05:30  INFO 14880 --- [user-service] [           main] c.r.u.UserServiceApplicationTests        : The following 1 profile is active: "test"
-2025-09-23T13:42:59.552+05:30  INFO 14880 --- [user-service] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2025-09-23T13:42:59.571+05:30  INFO 14880 --- [user-service] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 17 ms. Found 1 JPA repository interface.
-2025-09-23T13:42:59.662+05:30  INFO 14880 --- [user-service] [           main] o.s.cloud.context.scope.GenericScope     : BeanFactory id=635c0fcd-d91e-3d8c-be94-abad7e9c6870
-2025-09-23T13:42:59.795+05:30  INFO 14880 --- [user-service] [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2025-09-23T13:42:59.808+05:30  INFO 14880 --- [user-service] [           main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
-2025-09-23T13:42:59.821+05:30  INFO 14880 --- [user-service] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
-2025-09-23T13:42:59.824+05:30  INFO 14880 --- [user-service] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Starting...
-2025-09-23T13:42:59.825+05:30  INFO 14880 --- [user-service] [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-2 - Added connection conn14: url=jdbc:h2:mem:testdb user=SA
-2025-09-23T13:42:59.825+05:30  INFO 14880 --- [user-service] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Start completed.
-2025-09-23T13:42:59.826+05:30  WARN 14880 --- [user-service] [           main] org.hibernate.orm.deprecation            : HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2025-09-23T13:42:59.939+05:30  INFO 14880 --- [user-service] [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-2025-09-23T13:42:59.940+05:30 DEBUG 14880 --- [user-service] [           main] org.hibernate.SQL                        : 
+2025-09-23T13:42:50.109+05:30  INFO 14880 --- [user-service] [           main] c.r.u.i.UserRegistrationIntegrationTest  : Starting UserRegistrationIntegrationTest using Java 21.0.2 with PID 14880 (started by USER in C:\Users\USER\Desktop\trioes\Riyada\riyada-wallet-system\user-service)
+2025-09-23T13:42:50.109+05:30 DEBUG 14880 --- [user-service] [           main] c.r.u.i.UserRegistrationIntegrationTest  : Running with Spring Boot v3.2.0, Spring v6.1.1
+2025-09-23T13:42:50.109+05:30  INFO 14880 --- [user-service] [           main] c.r.u.i.UserRegistrationIntegrationTest  : The following 1 profile is active: "test"
+2025-09-23T13:42:52.232+05:30  INFO 14880 --- [user-service] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-09-23T13:42:52.292+05:30  INFO 14880 --- [user-service] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 56 ms. Found 1 JPA repository interface.
+2025-09-23T13:42:52.652+05:30  INFO 14880 --- [user-service] [           main] o.s.cloud.context.scope.GenericScope     : BeanFactory id=409c45f8-7259-37d8-ba98-8dda54203e31
+2025-09-23T13:42:53.175+05:30  INFO 14880 --- [user-service] [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-09-23T13:42:53.187+05:30  INFO 14880 --- [user-service] [           main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-09-23T13:42:53.201+05:30  INFO 14880 --- [user-service] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-09-23T13:42:53.226+05:30  INFO 14880 --- [user-service] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-09-23T13:42:53.312+05:30  INFO 14880 --- [user-service] [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection conn4: url=jdbc:h2:mem:testdb user=SA
+2025-09-23T13:42:53.318+05:30  INFO 14880 --- [user-service] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-09-23T13:42:53.331+05:30  WARN 14880 --- [user-service] [           main] org.hibernate.orm.deprecation            : HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-09-23T13:42:53.626+05:30  INFO 14880 --- [user-service] [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-09-23T13:42:53.627+05:30 DEBUG 14880 --- [user-service] [           main] org.hibernate.SQL                        : 
     drop table if exists users cascade 
 Hibernate: 
     drop table if exists users cascade 
-2025-09-23T13:42:59.943+05:30 DEBUG 14880 --- [user-service] [           main] org.hibernate.SQL                        : 
+2025-09-23T13:42:53.631+05:30 DEBUG 14880 --- [user-service] [           main] org.hibernate.SQL                        : 
     create table users (
         is_active boolean,
         created_at timestamp(6),
@@ -122,18 +122,173 @@ Hibernate:
         password_hash varchar(255) not null,
         primary key (id)
     )
-2025-09-23T13:42:59.946+05:30  INFO 14880 --- [user-service] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2025-09-23T13:43:00.203+05:30  WARN 14880 --- [user-service] [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2025-09-23T13:43:00.210+05:30  WARN 14880 --- [user-service] [           main] .s.s.UserDetailsServiceAutoConfiguration : 
+2025-09-23T13:42:53.641+05:30  INFO 14880 --- [user-service] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-09-23T13:42:54.045+05:30  WARN 14880 --- [user-service] [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-09-23T13:42:54.072+05:30  WARN 14880 --- [user-service] [           main] .s.s.UserDetailsServiceAutoConfiguration : 
 
-Using generated security password: bdbb8abf-6f49-462f-9d72-1269a4b3acde
+Using generated security password: 9b41a321-5bce-421c-a238-efebec4b8b4a
 
 This generated password is for development use only. Your security configuration must be updated before running your application in production.
 
-2025-09-23T13:43:00.222+05:30  INFO 14880 --- [user-service] [           main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@4089505c, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@53fa89e6, org.springframework.security.web.context.SecurityContextHolderFilter@53a41fbe, org.springframework.security.web.header.HeaderWriterFilter@241b5364, org.springframework.security.web.authentication.logout.LogoutFilter@54e8f10a, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@203f929, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@59bcab83, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@6670d46e, org.springframework.security.web.access.ExceptionTranslationFilter@6dd6c64c, org.springframework.security.web.access.intercept.AuthorizationFilter@7563ca08]
-2025-09-23T13:43:00.326+05:30  INFO 14880 --- [user-service] [           main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@c3745ae, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@6e2a6063, org.springframework.security.web.context.SecurityContextHolderFilter@3bd6ce4e, org.springframework.security.web.header.HeaderWriterFilter@1962f55, org.springframework.web.filter.CorsFilter@47dcb3bd, org.springframework.security.web.authentication.logout.LogoutFilter@78235b90, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@164fba04, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@2693d31f, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@4f2a0651, org.springframework.security.web.session.SessionManagementFilter@16d8a25e, org.springframework.security.web.access.ExceptionTranslationFilter@764b7ff7, org.springframework.security.web.access.intercept.AuthorizationFilter@2b647344]
-2025-09-23T13:43:01.546+05:30  INFO 14880 --- [user-service] [           main] o.s.cloud.commons.util.InetUtils         : Cannot determine local hostname
-2025-09-23T13:43:01.589+05:30  INFO 14880 --- [user-service] [           main] c.r.u.UserServiceApplicationTests        : Started UserServiceApplicationTests in 4.139 seconds (process running for 42.454)
+2025-09-23T13:42:54.179+05:30  INFO 14880 --- [user-service] [           main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@36d56d5d, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@3e549525, org.springframework.security.web.context.SecurityContextHolderFilter@6764a6d4, org.springframework.security.web.header.HeaderWriterFilter@7e9589b2, org.springframework.security.web.authentication.logout.LogoutFilter@12f35f55, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@1d17b20f, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@269c07d, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@2c143041, org.springframework.security.web.access.ExceptionTranslationFilter@7e30050, org.springframework.security.web.access.intercept.AuthorizationFilter@7e7254d1]
+2025-09-23T13:42:54.493+05:30  INFO 14880 --- [user-service] [           main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@18be5bce, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@5b3915b, org.springframework.security.web.context.SecurityContextHolderFilter@54f5457e, org.springframework.security.web.header.HeaderWriterFilter@38ffba03, org.springframework.web.filter.CorsFilter@6ad019e7, org.springframework.security.web.authentication.logout.LogoutFilter@699e81db, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@2f49d34d, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@6aa34b05, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@295f5dd5, org.springframework.security.web.session.SessionManagementFilter@45970ee8, org.springframework.security.web.access.ExceptionTranslationFilter@38187be6, org.springframework.security.web.access.intercept.AuthorizationFilter@78276d6d]
+2025-09-23T13:42:56.362+05:30  INFO 14880 --- [user-service] [           main] o.s.cloud.commons.util.InetUtils         : Cannot determine local hostname
+2025-09-23T13:42:56.412+05:30  INFO 14880 --- [user-service] [           main] c.r.u.i.UserRegistrationIntegrationTest  : Started UserRegistrationIntegrationTest in 7.601 seconds (process running for 37.278)
+2025-09-23T13:42:56.464+05:30  INFO 14880 --- [user-service] [           main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2025-09-23T13:42:56.464+05:30  INFO 14880 --- [user-service] [           main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2025-09-23T13:42:56.468+05:30  INFO 14880 --- [user-service] [           main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 4 ms
+2025-09-23T13:42:56.785+05:30 DEBUG 14880 --- [user-service] [           main] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.is_active,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.phone,
+        u1_0.updated_at 
+    from
+        users u1_0
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.is_active,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.phone,
+        u1_0.updated_at 
+    from
+        users u1_0
+2025-09-23T13:42:56.957+05:30 DEBUG 14880 --- [user-service] [           main] org.hibernate.SQL                        : 
+    select
+        u1_0.id 
+    from
+        users u1_0 
+    where
+        u1_0.email=? 
+    fetch
+        first ? rows only
+Hibernate: 
+    select
+        u1_0.id 
+    from
+        users u1_0 
+    where
+        u1_0.email=? 
+    fetch
+        first ? rows only
+2025-09-23T13:42:57.250+05:30 DEBUG 14880 --- [user-service] [           main] org.hibernate.SQL                        : 
+    insert 
+    into
+        users
+        (created_at, email, first_name, is_active, last_name, password_hash, phone, updated_at, id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    insert 
+    into
+        users
+        (created_at, email, first_name, is_active, last_name, password_hash, phone, updated_at, id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?)
+2025-09-23T13:42:57.278+05:30 DEBUG 14880 --- [user-service] [           main] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.is_active,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.phone,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.is_active,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.phone,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+]]></system-out>
+  </testcase>
+  <testcase name="testUserRegistration_DuplicateEmail" classname="com.riyada.userservice.integration.UserRegistrationIntegrationTest" time="0.052">
+    <system-out><![CDATA[2025-09-23T13:42:57.325+05:30  INFO 14880 --- [user-service] [           main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2025-09-23T13:42:57.325+05:30  INFO 14880 --- [user-service] [           main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2025-09-23T13:42:57.326+05:30  INFO 14880 --- [user-service] [           main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2025-09-23T13:42:57.329+05:30 DEBUG 14880 --- [user-service] [           main] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.is_active,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.phone,
+        u1_0.updated_at 
+    from
+        users u1_0
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.is_active,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.phone,
+        u1_0.updated_at 
+    from
+        users u1_0
+2025-09-23T13:42:57.351+05:30 DEBUG 14880 --- [user-service] [           main] org.hibernate.SQL                        : 
+    insert 
+    into
+        users
+        (created_at, email, first_name, is_active, last_name, password_hash, phone, updated_at, id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    insert 
+    into
+        users
+        (created_at, email, first_name, is_active, last_name, password_hash, phone, updated_at, id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?)
+2025-09-23T13:42:57.358+05:30 DEBUG 14880 --- [user-service] [           main] org.hibernate.SQL                        : 
+    select
+        u1_0.id 
+    from
+        users u1_0 
+    where
+        u1_0.email=? 
+    fetch
+        first ? rows only
+Hibernate: 
+    select
+        u1_0.id 
+    from
+        users u1_0 
+    where
+        u1_0.email=? 
+    fetch
+        first ? rows only
 ]]></system-out>
   </testcase>
 </testsuite>
