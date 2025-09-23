@@ -26,7 +26,7 @@ public class JwtConfig {
         return Keys.hmacShaKeyFor(secret.getBytes());
     }
 
-    public String generateToken(String username, Long userId) {
+    public String generateToken(String username, String userId) {
         Map<String, Object> claims = new HashMap<>();
         claims.put("userId", userId);
         return createToken(claims, username);
@@ -51,8 +51,8 @@ public class JwtConfig {
         return getClaimFromToken(token, Claims::getSubject);
     }
 
-    public Long getUserIdFromToken(String token) {
-        return getClaimFromToken(token, claims -> claims.get("userId", Long.class));
+    public String getUserIdFromToken(String token) {
+        return getClaimFromToken(token, claims -> claims.get("userId", String.class));
     }
 
     public Date getExpirationDateFromToken(String token) {

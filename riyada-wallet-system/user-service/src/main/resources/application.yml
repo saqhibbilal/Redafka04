@@ -20,10 +20,10 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
 
-  security:
-    user:
-      name: admin
-      password: admin123
+  # security:
+  # user:
+  #   name: admin
+  #   password: admin123
 
 # JWT Configuration
 jwt:
