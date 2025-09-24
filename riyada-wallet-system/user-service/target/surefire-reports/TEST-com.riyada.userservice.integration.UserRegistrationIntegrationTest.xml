@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.riyada.userservice.integration.UserRegistrationIntegrationTest" time="8.67" tests="2" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.riyada.userservice.integration.UserRegistrationIntegrationTest" time="8.345" tests="2" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="21"/>
     <property name="sun.cpu.isalist" value="amd64"/>
@@ -16,7 +16,7 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="US"/>
     <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk-21\bin"/>
-    <property name="sun.java.command" value="C:\Users\USER\AppData\Local\Temp\surefire12831706172266635731\surefirebooter-20250923134218702_3.jar C:\Users\USER\AppData\Local\Temp\surefire12831706172266635731 2025-09-23T13-42-18_137-jvmRun1 surefire-20250923134218702_1tmp surefire_0-20250923134218702_2tmp"/>
+    <property name="sun.java.command" value="C:\Users\USER\AppData\Local\Temp\surefire398533349762692427\surefirebooter-20250924161730455_3.jar C:\Users\USER\AppData\Local\Temp\surefire398533349762692427 2025-09-24T16-17-30_134-jvmRun1 surefire-20250924161730455_1tmp surefire_0-20250924161730455_2tmp"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="C:\Users\USER\Desktop\trioes\Riyada\riyada-wallet-system\user-service\target\test-classes;C:\Users\USER\Desktop\trioes\Riyada\riyada-wallet-system\user-service\target\classes;C:\Users\USER\.m2\repository\org\springframework\boot\spring-boot-starter-web\3.2.0\spring-boot-starter-web-3.2.0.jar;C:\Users\USER\.m2\repository\org\springframework\boot\spring-boot-starter\3.2.0\spring-boot-starter-3.2.0.jar;C:\Users\USER\.m2\repository\org\springframework\boot\spring-boot-starter-logging\3.2.0\spring-boot-starter-logging-3.2.0.jar;C:\Users\USER\.m2\repository\ch\qos\logback\logback-classic\1.4.11\logback-classic-1.4.11.jar;C:\Users\USER\.m2\repository\ch\qos\logback\logback-core\1.4.11\logback-core-1.4.11.jar;C:\Users\USER\.m2\repository\org\apache\logging\log4j\log4j-to-slf4j\2.21.1\log4j-to-slf4j-2.21.1.jar;C:\Users\USER\.m2\repository\org\apache\logging\log4j\log4j-api\2.21.1\log4j-api-2.21.1.jar;C:\Users\USER\.m2\repository\org\slf4j\jul-to-slf4j\2.0.9\jul-to-slf4j-2.0.9.jar;C:\Users\USER\.m2\repository\jakarta\annotation\jakarta.annotation-api\2.1.1\jakarta.annotation-api-2.1.1.jar;C:\Users\USER\.m2\repository\org\yaml\snakeyaml\2.2\snakeyaml-2.2.jar;C:\Users\USER\.m2\repository\org\springframework\boot\spring-boot-starter-json\3.2.0\spring-boot-starter-json-3.2.0.jar;C:\Users\USER\.m2\repository\com\fasterxml\jackson\datatype\jackson-datatype-jdk8\2.15.3\jackson-datatype-jdk8-2.15.3.jar;C:\Users\USER\.m2\repository\com\fasterxml\jackson\datatype\jackson-datatype-jsr310\2.15.3\jackson-datatype-jsr310-2.15.3.jar;C:\Users\USER\.m2\repository\com\fasterxml\jackson\module\jackson-module-parameter-names\2.15.3\jackson-module-parameter-names-2.15.3.jar;C:\Users\USER\.m2\repository\org\springframework\boot\spring-boot-starter-tomcat\3.2.0\spring-boot-starter-tomcat-3.2.0.jar;C:\Users\USER\.m2\repository\org\apache\tomcat\embed\tomcat-embed-core\10.1.16\tomcat-embed-core-10.1.16.jar;C:\Users\USER\.m2\repository\org\apache\tomcat\embed\tomcat-embed-websocket\10.1.16\tomcat-embed-websocket-10.1.16.jar;C:\Users\USER\.m2\repository\org\springframework\spring-web\6.1.1\spring-web-6.1.1.jar;C:\Users\USER\.m2\repository\org\springframework\spring-beans\6.1.1\spring-beans-6.1.1.jar;C:\Users\USER\.m2\repository\io\micrometer\micrometer-observation\1.12.0\micrometer-observation-1.12.0.jar;C:\Users\USER\.m2\repository\io\micrometer\micrometer-commons\1.12.0\micrometer-commons-1.12.0.jar;C:\Users\USER\.m2\repository\org\springframework\spring-webmvc\6.1.1\spring-webmvc-6.1.1.jar;C:\Users\USER\.m2\repository\org\springframework\spring-context\6.1.1\spring-context-6.1.1.jar;C:\Users\USER\.m2\repository\org\springframework\spring-expression\6.1.1\spring-expression-6.1.1.jar;C:\Users\USER\.m2\repository\org\springframework\boot\spring-boot-starter-data-jpa\3.2.0\spring-boot-starter-data-jpa-3.2.0.jar;C:\Users\USER\.m2\repository\org\springframework\boot\spring-boot-starter-aop\3.2.0\spring-boot-starter-aop-3.2.0.jar;C:\Users\USER\.m2\repository\org\aspectj\aspectjweaver\1.9.20.1\aspectjweaver-1.9.20.1.jar;C:\Users\USER\.m2\repository\org\springframework\boot\spring-boot-starter-jdbc\3.2.0\spring-boot-starter-jdbc-3.2.0.jar;C:\Users\USER\.m2\repository\com\zaxxer\HikariCP\5.0.1\HikariCP-5.0.1.jar;C:\Users\USER\.m2\repository\org\springframework\spring-jdbc\6.1.1\spring-jdbc-6.1.1.jar;C:\Users\USER\.m2\repository\org\hibernate\orm\hibernate-core\6.3.1.Final\hibernate-core-6.3.1.Final.jar;C:\Users\USER\.m2\repository\jakarta\persistence\jakarta.persistence-api\3.1.0\jakarta.persistence-api-3.1.0.jar;C:\Users\USER\.m2\repository\jakarta\transaction\jakarta.transaction-api\2.0.1\jakarta.transaction-api-2.0.1.jar;C:\Users\USER\.m2\repository\org\jboss\logging\jboss-logging\3.5.3.Final\jboss-logging-3.5.3.Final.jar;C:\Users\USER\.m2\repository\org\hibernate\common\hibernate-commons-annotations\6.0.6.Final\hibernate-commons-annotations-6.0.6.Final.jar;C:\Users\USER\.m2\repository\io\smallrye\jandex\3.1.2\jandex-3.1.2.jar;C:\Users\USER\.m2\repository\com\fasterxml\classmate\1.6.0\classmate-1.6.0.jar;C:\Users\USER\.m2\repository\net\bytebuddy\byte-buddy\1.14.10\byte-buddy-1.14.10.jar;C:\Users\USER\.m2\repository\org\glassfish\jaxb\jaxb-runtime\4.0.4\jaxb-runtime-4.0.4.jar;C:\Users\USER\.m2\repository\org\glassfish\jaxb\jaxb-core\4.0.4\jaxb-core-4.0.4.jar;C:\Users\USER\.m2\repository\org\eclipse\angus\angus-activation\2.0.1\angus-activation-2.0.1.jar;C:\Users\USER\.m2\repository\org\glassfish\jaxb\txw2\4.0.4\txw2-4.0.4.jar;C:\Users\USER\.m2\repository\com\sun\istack\istack-commons-runtime\4.1.2\istack-commons-runtime-4.1.2.jar;C:\Users\USER\.m2\repository\jakarta\inject\jakarta.inject-api\2.0.1\jakarta.inject-api-2.0.1.jar;C:\Users\USER\.m2\repository\org\antlr\antlr4-runtime\4.10.1\antlr4-runtime-4.10.1.jar;C:\Users\USER\.m2\repository\org\springframework\data\spring-data-jpa\3.2.0\spring-data-jpa-3.2.0.jar;C:\Users\USER\.m2\repository\org\springframework\data\spring-data-commons\3.2.0\spring-data-commons-3.2.0.jar;C:\Users\USER\.m2\repository\org\springframework\spring-orm\6.1.1\spring-orm-6.1.1.jar;C:\Users\USER\.m2\repository\org\springframework\spring-tx\6.1.1\spring-tx-6.1.1.jar;C:\Users\USER\.m2\repository\org\slf4j\slf4j-api\2.0.9\slf4j-api-2.0.9.jar;C:\Users\USER\.m2\repository\org\springframework\spring-aspects\6.1.1\spring-aspects-6.1.1.jar;C:\Users\USER\.m2\repository\org\springframework\boot\spring-boot-starter-security\3.2.0\spring-boot-starter-security-3.2.0.jar;C:\Users\USER\.m2\repository\org\springframework\spring-aop\6.1.1\spring-aop-6.1.1.jar;C:\Users\USER\.m2\repository\org\springframework\security\spring-security-config\6.2.0\spring-security-config-6.2.0.jar;C:\Users\USER\.m2\repository\org\springframework\security\spring-security-web\6.2.0\spring-security-web-6.2.0.jar;C:\Users\USER\.m2\repository\org\springframework\boot\spring-boot-starter-validation\3.2.0\spring-boot-starter-validation-3.2.0.jar;C:\Users\USER\.m2\repository\org\apache\tomcat\embed\tomcat-embed-el\10.1.16\tomcat-embed-el-10.1.16.jar;C:\Users\USER\.m2\repository\org\hibernate\validator\hibernate-validator\8.0.1.Final\hibernate-validator-8.0.1.Final.jar;C:\Users\USER\.m2\repository\jakarta\validation\jakarta.validation-api\3.0.2\jakarta.validation-api-3.0.2.jar;C:\Users\USER\.m2\repository\org\postgresql\postgresql\42.6.0\postgresql-42.6.0.jar;C:\Users\USER\.m2\repository\org\checkerframework\checker-qual\3.31.0\checker-qual-3.31.0.jar;C:\Users\USER\.m2\repository\com\h2database\h2\2.2.224\h2-2.2.224.jar;C:\Users\USER\.m2\repository\io\jsonwebtoken\jjwt-api\0.11.5\jjwt-api-0.11.5.jar;C:\Users\USER\.m2\repository\io\jsonwebtoken\jjwt-impl\0.11.5\jjwt-impl-0.11.5.jar;C:\Users\USER\.m2\repository\io\jsonwebtoken\jjwt-jackson\0.11.5\jjwt-jackson-0.11.5.jar;C:\Users\USER\.m2\repository\com\fasterxml\jackson\core\jackson-databind\2.15.3\jackson-databind-2.15.3.jar;C:\Users\USER\.m2\repository\com\fasterxml\jackson\core\jackson-annotations\2.15.3\jackson-annotations-2.15.3.jar;C:\Users\USER\.m2\repository\com\fasterxml\jackson\core\jackson-core\2.15.3\jackson-core-2.15.3.jar;C:\Users\USER\.m2\repository\org\springframework\cloud\spring-cloud-starter-openfeign\4.1.0\spring-cloud-starter-openfeign-4.1.0.jar;C:\Users\USER\.m2\repository\org\springframework\cloud\spring-cloud-starter\4.1.0\spring-cloud-starter-4.1.0.jar;C:\Users\USER\.m2\repository\org\springframework\cloud\spring-cloud-context\4.1.0\spring-cloud-context-4.1.0.jar;C:\Users\USER\.m2\repository\org\springframework\security\spring-security-rsa\1.1.1\spring-security-rsa-1.1.1.jar;C:\Users\USER\.m2\repository\org\bouncycastle\bcprov-jdk18on\1.74\bcprov-jdk18on-1.74.jar;C:\Users\USER\.m2\repository\org\springframework\cloud\spring-cloud-openfeign-core\4.1.0\spring-cloud-openfeign-core-4.1.0.jar;C:\Users\USER\.m2\repository\io\github\openfeign\form\feign-form-spring\3.8.0\feign-form-spring-3.8.0.jar;C:\Users\USER\.m2\repository\io\github\openfeign\form\feign-form\3.8.0\feign-form-3.8.0.jar;C:\Users\USER\.m2\repository\commons-fileupload\commons-fileupload\1.5\commons-fileupload-1.5.jar;C:\Users\USER\.m2\repository\commons-io\commons-io\2.11.0\commons-io-2.11.0.jar;C:\Users\USER\.m2\repository\org\springframework\cloud\spring-cloud-commons\4.1.0\spring-cloud-commons-4.1.0.jar;C:\Users\USER\.m2\repository\org\springframework\security\spring-security-crypto\6.2.0\spring-security-crypto-6.2.0.jar;C:\Users\USER\.m2\repository\io\github\openfeign\feign-core\13.1\feign-core-13.1.jar;C:\Users\USER\.m2\repository\io\github\openfeign\feign-slf4j\13.1\feign-slf4j-13.1.jar;C:\Users\USER\.m2\repository\org\springframework\boot\spring-boot-devtools\3.2.0\spring-boot-devtools-3.2.0.jar;C:\Users\USER\.m2\repository\org\springframework\boot\spring-boot\3.2.0\spring-boot-3.2.0.jar;C:\Users\USER\.m2\repository\org\springframework\boot\spring-boot-autoconfigure\3.2.0\spring-boot-autoconfigure-3.2.0.jar;C:\Users\USER\.m2\repository\org\springframework\boot\spring-boot-starter-test\3.2.0\spring-boot-starter-test-3.2.0.jar;C:\Users\USER\.m2\repository\org\springframework\boot\spring-boot-test\3.2.0\spring-boot-test-3.2.0.jar;C:\Users\USER\.m2\repository\org\springframework\boot\spring-boot-test-autoconfigure\3.2.0\spring-boot-test-autoconfigure-3.2.0.jar;C:\Users\USER\.m2\repository\com\jayway\jsonpath\json-path\2.8.0\json-path-2.8.0.jar;C:\Users\USER\.m2\repository\jakarta\xml\bind\jakarta.xml.bind-api\4.0.1\jakarta.xml.bind-api-4.0.1.jar;C:\Users\USER\.m2\repository\jakarta\activation\jakarta.activation-api\2.1.2\jakarta.activation-api-2.1.2.jar;C:\Users\USER\.m2\repository\net\minidev\json-smart\2.5.0\json-smart-2.5.0.jar;C:\Users\USER\.m2\repository\net\minidev\accessors-smart\2.5.0\accessors-smart-2.5.0.jar;C:\Users\USER\.m2\repository\org\ow2\asm\asm\9.3\asm-9.3.jar;C:\Users\USER\.m2\repository\org\assertj\assertj-core\3.24.2\assertj-core-3.24.2.jar;C:\Users\USER\.m2\repository\org\awaitility\awaitility\4.2.0\awaitility-4.2.0.jar;C:\Users\USER\.m2\repository\org\hamcrest\hamcrest\2.2\hamcrest-2.2.jar;C:\Users\USER\.m2\repository\org\junit\jupiter\junit-jupiter\5.10.1\junit-jupiter-5.10.1.jar;C:\Users\USER\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.10.1\junit-jupiter-api-5.10.1.jar;C:\Users\USER\.m2\repository\org\opentest4j\opentest4j\1.3.0\opentest4j-1.3.0.jar;C:\Users\USER\.m2\repository\org\junit\platform\junit-platform-commons\1.10.1\junit-platform-commons-1.10.1.jar;C:\Users\USER\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\USER\.m2\repository\org\junit\jupiter\junit-jupiter-params\5.10.1\junit-jupiter-params-5.10.1.jar;C:\Users\USER\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.10.1\junit-jupiter-engine-5.10.1.jar;C:\Users\USER\.m2\repository\org\junit\platform\junit-platform-engine\1.10.1\junit-platform-engine-1.10.1.jar;C:\Users\USER\.m2\repository\org\mockito\mockito-core\5.7.0\mockito-core-5.7.0.jar;C:\Users\USER\.m2\repository\net\bytebuddy\byte-buddy-agent\1.14.10\byte-buddy-agent-1.14.10.jar;C:\Users\USER\.m2\repository\org\objenesis\objenesis\3.3\objenesis-3.3.jar;C:\Users\USER\.m2\repository\org\mockito\mockito-junit-jupiter\5.7.0\mockito-junit-jupiter-5.7.0.jar;C:\Users\USER\.m2\repository\org\skyscreamer\jsonassert\1.5.1\jsonassert-1.5.1.jar;C:\Users\USER\.m2\repository\com\vaadin\external\google\android-json\0.0.20131108.vaadin1\android-json-0.0.20131108.vaadin1.jar;C:\Users\USER\.m2\repository\org\springframework\spring-core\6.1.1\spring-core-6.1.1.jar;C:\Users\USER\.m2\repository\org\springframework\spring-jcl\6.1.1\spring-jcl-6.1.1.jar;C:\Users\USER\.m2\repository\org\springframework\spring-test\6.1.1\spring-test-6.1.1.jar;C:\Users\USER\.m2\repository\org\xmlunit\xmlunit-core\2.9.1\xmlunit-core-2.9.1.jar;C:\Users\USER\.m2\repository\org\springframework\security\spring-security-test\6.2.0\spring-security-test-6.2.0.jar;C:\Users\USER\.m2\repository\org\springframework\security\spring-security-core\6.2.0\spring-security-core-6.2.0.jar;"/>
     <property name="sun.cpu.endian" value="little"/>
@@ -33,7 +33,7 @@
     <property name="java.specification.name" value="Java Platform API Specification"/>
     <property name="FILE_LOG_CHARSET" value="UTF-8"/>
     <property name="java.awt.headless" value="true"/>
-    <property name="surefire.real.class.path" value="C:\Users\USER\AppData\Local\Temp\surefire12831706172266635731\surefirebooter-20250923134218702_3.jar"/>
+    <property name="surefire.real.class.path" value="C:\Users\USER\AppData\Local\Temp\surefire398533349762692427\surefirebooter-20250924161730455_3.jar"/>
     <property name="user.script" value=""/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="21.0.2+13-LTS-58"/>
@@ -52,7 +52,7 @@
     <property name="user.dir" value="C:\Users\USER\Desktop\trioes\Riyada\riyada-wallet-system\user-service"/>
     <property name="os.arch" value="amd64"/>
     <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
-    <property name="PID" value="14880"/>
+    <property name="PID" value="6136"/>
     <property name="sun.os.patch.level" value=""/>
     <property name="CONSOLE_LOG_CHARSET" value="UTF-8"/>
     <property name="native.encoding" value="Cp1252"/>
@@ -65,10 +65,10 @@
     <property name="java.class.version" value="65.0"/>
     <property name="LOGGED_APPLICATION_NAME" value="[user-service] "/>
   </properties>
-  <testcase name="testUserRegistration_CompleteFlow" classname="com.riyada.userservice.integration.UserRegistrationIntegrationTest" time="0.883">
-    <system-out><![CDATA[2025-09-23T13:42:48.710+05:30  INFO 14880 --- [user-service] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.riyada.userservice.integration.UserRegistrationIntegrationTest]: UserRegistrationIntegrationTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-2025-09-23T13:42:48.788+05:30  INFO 14880 --- [user-service] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.riyada.userservice.UserServiceApplication for test class com.riyada.userservice.integration.UserRegistrationIntegrationTest
-2025-09-23T13:42:48.811+05:30  INFO 14880 --- [user-service] [           main] o.s.b.d.r.RestartApplicationListener     : Restart disabled due to context in which it is running
+  <testcase name="testUserRegistration_CompleteFlow" classname="com.riyada.userservice.integration.UserRegistrationIntegrationTest" time="0.755">
+    <system-out><![CDATA[2025-09-24T16:18:04.971+05:30  INFO 6136 --- [user-service] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.riyada.userservice.integration.UserRegistrationIntegrationTest]: UserRegistrationIntegrationTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2025-09-24T16:18:05.127+05:30  INFO 6136 --- [user-service] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.riyada.userservice.UserServiceApplication for test class com.riyada.userservice.integration.UserRegistrationIntegrationTest
+2025-09-24T16:18:05.145+05:30  INFO 6136 --- [user-service] [           main] o.s.b.d.r.RestartApplicationListener     : Restart disabled due to context in which it is running
 
   .   ____          _            __ _ _
  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
@@ -78,25 +78,25 @@
  =========|_|==============|___/=/_/_/_/
  :: Spring Boot ::                (v3.2.0)
 
-2025-09-23T13:42:50.109+05:30  INFO 14880 --- [user-service] [           main] c.r.u.i.UserRegistrationIntegrationTest  : Starting UserRegistrationIntegrationTest using Java 21.0.2 with PID 14880 (started by USER in C:\Users\USER\Desktop\trioes\Riyada\riyada-wallet-system\user-service)
-2025-09-23T13:42:50.109+05:30 DEBUG 14880 --- [user-service] [           main] c.r.u.i.UserRegistrationIntegrationTest  : Running with Spring Boot v3.2.0, Spring v6.1.1
-2025-09-23T13:42:50.109+05:30  INFO 14880 --- [user-service] [           main] c.r.u.i.UserRegistrationIntegrationTest  : The following 1 profile is active: "test"
-2025-09-23T13:42:52.232+05:30  INFO 14880 --- [user-service] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2025-09-23T13:42:52.292+05:30  INFO 14880 --- [user-service] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 56 ms. Found 1 JPA repository interface.
-2025-09-23T13:42:52.652+05:30  INFO 14880 --- [user-service] [           main] o.s.cloud.context.scope.GenericScope     : BeanFactory id=409c45f8-7259-37d8-ba98-8dda54203e31
-2025-09-23T13:42:53.175+05:30  INFO 14880 --- [user-service] [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2025-09-23T13:42:53.187+05:30  INFO 14880 --- [user-service] [           main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
-2025-09-23T13:42:53.201+05:30  INFO 14880 --- [user-service] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
-2025-09-23T13:42:53.226+05:30  INFO 14880 --- [user-service] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2025-09-23T13:42:53.312+05:30  INFO 14880 --- [user-service] [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection conn4: url=jdbc:h2:mem:testdb user=SA
-2025-09-23T13:42:53.318+05:30  INFO 14880 --- [user-service] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
-2025-09-23T13:42:53.331+05:30  WARN 14880 --- [user-service] [           main] org.hibernate.orm.deprecation            : HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2025-09-23T13:42:53.626+05:30  INFO 14880 --- [user-service] [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-2025-09-23T13:42:53.627+05:30 DEBUG 14880 --- [user-service] [           main] org.hibernate.SQL                        : 
+2025-09-24T16:18:06.844+05:30  INFO 6136 --- [user-service] [           main] c.r.u.i.UserRegistrationIntegrationTest  : Starting UserRegistrationIntegrationTest using Java 21.0.2 with PID 6136 (started by USER in C:\Users\USER\Desktop\trioes\Riyada\riyada-wallet-system\user-service)
+2025-09-24T16:18:06.844+05:30 DEBUG 6136 --- [user-service] [           main] c.r.u.i.UserRegistrationIntegrationTest  : Running with Spring Boot v3.2.0, Spring v6.1.1
+2025-09-24T16:18:06.845+05:30  INFO 6136 --- [user-service] [           main] c.r.u.i.UserRegistrationIntegrationTest  : The following 1 profile is active: "test"
+2025-09-24T16:18:08.400+05:30  INFO 6136 --- [user-service] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-09-24T16:18:08.466+05:30  INFO 6136 --- [user-service] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 65 ms. Found 1 JPA repository interface.
+2025-09-24T16:18:08.683+05:30  INFO 6136 --- [user-service] [           main] o.s.cloud.context.scope.GenericScope     : BeanFactory id=409c45f8-7259-37d8-ba98-8dda54203e31
+2025-09-24T16:18:08.987+05:30  INFO 6136 --- [user-service] [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-09-24T16:18:08.999+05:30  INFO 6136 --- [user-service] [           main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-09-24T16:18:09.016+05:30  INFO 6136 --- [user-service] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-09-24T16:18:09.018+05:30  INFO 6136 --- [user-service] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-09-24T16:18:09.080+05:30  INFO 6136 --- [user-service] [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection conn4: url=jdbc:h2:mem:testdb user=SA
+2025-09-24T16:18:09.084+05:30  INFO 6136 --- [user-service] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-09-24T16:18:09.100+05:30  WARN 6136 --- [user-service] [           main] org.hibernate.orm.deprecation            : HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-09-24T16:18:09.494+05:30  INFO 6136 --- [user-service] [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-09-24T16:18:09.495+05:30 DEBUG 6136 --- [user-service] [           main] org.hibernate.SQL                        : 
     drop table if exists users cascade 
 Hibernate: 
     drop table if exists users cascade 
-2025-09-23T13:42:53.631+05:30 DEBUG 14880 --- [user-service] [           main] org.hibernate.SQL                        : 
+2025-09-24T16:18:09.501+05:30 DEBUG 6136 --- [user-service] [           main] org.hibernate.SQL                        : 
     create table users (
         is_active boolean,
         created_at timestamp(6),
@@ -122,22 +122,22 @@ Hibernate:
         password_hash varchar(255) not null,
         primary key (id)
     )
-2025-09-23T13:42:53.641+05:30  INFO 14880 --- [user-service] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2025-09-23T13:42:54.045+05:30  WARN 14880 --- [user-service] [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2025-09-23T13:42:54.072+05:30  WARN 14880 --- [user-service] [           main] .s.s.UserDetailsServiceAutoConfiguration : 
+2025-09-24T16:18:09.512+05:30  INFO 6136 --- [user-service] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-09-24T16:18:10.384+05:30  WARN 6136 --- [user-service] [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-09-24T16:18:10.467+05:30  WARN 6136 --- [user-service] [           main] .s.s.UserDetailsServiceAutoConfiguration : 
 
-Using generated security password: 9b41a321-5bce-421c-a238-efebec4b8b4a
+Using generated security password: 0baa5bd1-ba32-424e-ba1b-2e811903855b
 
 This generated password is for development use only. Your security configuration must be updated before running your application in production.
 
-2025-09-23T13:42:54.179+05:30  INFO 14880 --- [user-service] [           main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@36d56d5d, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@3e549525, org.springframework.security.web.context.SecurityContextHolderFilter@6764a6d4, org.springframework.security.web.header.HeaderWriterFilter@7e9589b2, org.springframework.security.web.authentication.logout.LogoutFilter@12f35f55, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@1d17b20f, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@269c07d, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@2c143041, org.springframework.security.web.access.ExceptionTranslationFilter@7e30050, org.springframework.security.web.access.intercept.AuthorizationFilter@7e7254d1]
-2025-09-23T13:42:54.493+05:30  INFO 14880 --- [user-service] [           main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@18be5bce, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@5b3915b, org.springframework.security.web.context.SecurityContextHolderFilter@54f5457e, org.springframework.security.web.header.HeaderWriterFilter@38ffba03, org.springframework.web.filter.CorsFilter@6ad019e7, org.springframework.security.web.authentication.logout.LogoutFilter@699e81db, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@2f49d34d, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@6aa34b05, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@295f5dd5, org.springframework.security.web.session.SessionManagementFilter@45970ee8, org.springframework.security.web.access.ExceptionTranslationFilter@38187be6, org.springframework.security.web.access.intercept.AuthorizationFilter@78276d6d]
-2025-09-23T13:42:56.362+05:30  INFO 14880 --- [user-service] [           main] o.s.cloud.commons.util.InetUtils         : Cannot determine local hostname
-2025-09-23T13:42:56.412+05:30  INFO 14880 --- [user-service] [           main] c.r.u.i.UserRegistrationIntegrationTest  : Started UserRegistrationIntegrationTest in 7.601 seconds (process running for 37.278)
-2025-09-23T13:42:56.464+05:30  INFO 14880 --- [user-service] [           main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
-2025-09-23T13:42:56.464+05:30  INFO 14880 --- [user-service] [           main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
-2025-09-23T13:42:56.468+05:30  INFO 14880 --- [user-service] [           main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 4 ms
-2025-09-23T13:42:56.785+05:30 DEBUG 14880 --- [user-service] [           main] org.hibernate.SQL                        : 
+2025-09-24T16:18:10.528+05:30  INFO 6136 --- [user-service] [           main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@12a16e42, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@143dc03a, org.springframework.security.web.context.SecurityContextHolderFilter@44459661, org.springframework.security.web.header.HeaderWriterFilter@530daa7e, org.springframework.security.web.authentication.logout.LogoutFilter@51aae61a, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@bdeda0e, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@7548d0d, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@72464f26, org.springframework.security.web.access.ExceptionTranslationFilter@30078038, org.springframework.security.web.access.intercept.AuthorizationFilter@f4694f8]
+2025-09-24T16:18:10.883+05:30  INFO 6136 --- [user-service] [           main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@3aa8ebf9, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@2ff84e42, org.springframework.security.web.context.SecurityContextHolderFilter@48b3ce9b, org.springframework.security.web.header.HeaderWriterFilter@580cb668, org.springframework.web.filter.CorsFilter@7ca802e3, org.springframework.security.web.authentication.logout.LogoutFilter@5839bf99, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@6b7ff02a, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@56fdb4db, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@15d313d3, org.springframework.security.web.session.SessionManagementFilter@302d0419, org.springframework.security.web.access.ExceptionTranslationFilter@42ec207f, org.springframework.security.web.access.intercept.AuthorizationFilter@77b3c429]
+2025-09-24T16:18:12.427+05:30  INFO 6136 --- [user-service] [           main] o.s.cloud.commons.util.InetUtils         : Cannot determine local hostname
+2025-09-24T16:18:12.470+05:30  INFO 6136 --- [user-service] [           main] c.r.u.i.UserRegistrationIntegrationTest  : Started UserRegistrationIntegrationTest in 7.332 seconds (process running for 41.616)
+2025-09-24T16:18:12.517+05:30  INFO 6136 --- [user-service] [           main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2025-09-24T16:18:12.517+05:30  INFO 6136 --- [user-service] [           main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2025-09-24T16:18:12.519+05:30  INFO 6136 --- [user-service] [           main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 2 ms
+2025-09-24T16:18:12.754+05:30 DEBUG 6136 --- [user-service] [           main] org.hibernate.SQL                        : 
     select
         u1_0.id,
         u1_0.created_at,
@@ -163,7 +163,7 @@ Hibernate:
         u1_0.updated_at 
     from
         users u1_0
-2025-09-23T13:42:56.957+05:30 DEBUG 14880 --- [user-service] [           main] org.hibernate.SQL                        : 
+2025-09-24T16:18:12.928+05:30 DEBUG 6136 --- [user-service] [           main] org.hibernate.SQL                        : 
     select
         u1_0.id 
     from
@@ -181,7 +181,7 @@ Hibernate:
         u1_0.email=? 
     fetch
         first ? rows only
-2025-09-23T13:42:57.250+05:30 DEBUG 14880 --- [user-service] [           main] org.hibernate.SQL                        : 
+2025-09-24T16:18:13.177+05:30 DEBUG 6136 --- [user-service] [           main] org.hibernate.SQL                        : 
     insert 
     into
         users
@@ -195,7 +195,7 @@ Hibernate:
         (created_at, email, first_name, is_active, last_name, password_hash, phone, updated_at, id) 
     values
         (?, ?, ?, ?, ?, ?, ?, ?, ?)
-2025-09-23T13:42:57.278+05:30 DEBUG 14880 --- [user-service] [           main] org.hibernate.SQL                        : 
+2025-09-24T16:18:13.195+05:30 DEBUG 6136 --- [user-service] [           main] org.hibernate.SQL                        : 
     select
         u1_0.id,
         u1_0.created_at,
@@ -227,11 +227,11 @@ Hibernate:
         u1_0.email=?
 ]]></system-out>
   </testcase>
-  <testcase name="testUserRegistration_DuplicateEmail" classname="com.riyada.userservice.integration.UserRegistrationIntegrationTest" time="0.052">
-    <system-out><![CDATA[2025-09-23T13:42:57.325+05:30  INFO 14880 --- [user-service] [           main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
-2025-09-23T13:42:57.325+05:30  INFO 14880 --- [user-service] [           main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
-2025-09-23T13:42:57.326+05:30  INFO 14880 --- [user-service] [           main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
-2025-09-23T13:42:57.329+05:30 DEBUG 14880 --- [user-service] [           main] org.hibernate.SQL                        : 
+  <testcase name="testUserRegistration_DuplicateEmail" classname="com.riyada.userservice.integration.UserRegistrationIntegrationTest" time="0.069">
+    <system-out><![CDATA[2025-09-24T16:18:13.247+05:30  INFO 6136 --- [user-service] [           main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2025-09-24T16:18:13.248+05:30  INFO 6136 --- [user-service] [           main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2025-09-24T16:18:13.251+05:30  INFO 6136 --- [user-service] [           main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 3 ms
+2025-09-24T16:18:13.275+05:30 DEBUG 6136 --- [user-service] [           main] org.hibernate.SQL                        : 
     select
         u1_0.id,
         u1_0.created_at,
@@ -257,7 +257,7 @@ Hibernate:
         u1_0.updated_at 
     from
         users u1_0
-2025-09-23T13:42:57.351+05:30 DEBUG 14880 --- [user-service] [           main] org.hibernate.SQL                        : 
+2025-09-24T16:18:13.289+05:30 DEBUG 6136 --- [user-service] [           main] org.hibernate.SQL                        : 
     insert 
     into
         users
@@ -271,7 +271,7 @@ Hibernate:
         (created_at, email, first_name, is_active, last_name, password_hash, phone, updated_at, id) 
     values
         (?, ?, ?, ?, ?, ?, ?, ?, ?)
-2025-09-23T13:42:57.358+05:30 DEBUG 14880 --- [user-service] [           main] org.hibernate.SQL                        : 
+2025-09-24T16:18:13.295+05:30 DEBUG 6136 --- [user-service] [           main] org.hibernate.SQL                        : 
     select
         u1_0.id 
     from
