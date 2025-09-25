@@ -13,10 +13,11 @@ export const useWallet = () => {
 };
 
 export const WalletProvider = ({ children }) => {
-  const { user, isAuthenticated } = useAuth();
+  const { user, token, isAuthenticated } = useAuth();
   const [balance, setBalance] = useState(0);
   const [transactions, setTransactions] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [wallet, setWallet] = useState(null);
 
   // Load wallet data when user is authenticated
   useEffect(() => {
@@ -29,14 +30,14 @@ export const WalletProvider = ({ children }) => {
   }, [isAuthenticated, user]);
 
   const loadWalletData = async () => {
-    if (!user) return;
+    if (!user || !token) return;
     
     setLoading(true);
     try {
       // Load balance and transactions in parallel
       const [balanceResponse, transactionsResponse] = await Promise.all([
-        walletAPI.getBalance(user.id),
-        walletAPI.getTransactions(user.id)
+        walletAPI.getBalance(user.id, token),
+        walletAPI.getTransactions(user.id, token)
       ]);
 
       if (balanceResponse.success) {
@@ -48,17 +49,36 @@ export const WalletProvider = ({ children }) => {
       }
     } catch (error) {
       console.error('Failed to load wallet data:', error);
+      // If wallet doesn't exist, try to create one
+      if (error.message && error.message.includes('Wallet not found')) {
+        await createWalletIfNeeded();
+      }
     } finally {
       setLoading(false);
     }
   };
 
+  const createWalletIfNeeded = async () => {
+    if (!user || !token) return;
+    
+    try {
+      const response = await walletAPI.createWallet(user.id, token);
+      if (response.success) {
+        setWallet(response.wallet);
+        setBalance(response.wallet.balance);
+        console.log('Wallet created successfully');
+      }
+    } catch (error) {
+      console.error('Failed to create wallet:', error);
+    }
+  };
+
   const transfer = async (toEmail, amount, description) => {
-    if (!user) return { success: false, error: 'Not authenticated' };
+    if (!user || !token) return { success: false, error: 'Not authenticated' };
 
     setLoading(true);
     try {
-      const response = await walletAPI.transfer(user.id, toEmail, amount, description);
+      const response = await walletAPI.transfer(user.id, toEmail, amount, description, token);
       
       if (response.success) {
         // Update local state
@@ -86,8 +106,10 @@ export const WalletProvider = ({ children }) => {
     balance,
     transactions,
     loading,
+    wallet,
     transfer,
     refreshWallet,
+    createWalletIfNeeded,
     currency: 'USD'
   };
 

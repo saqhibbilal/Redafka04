@@ -5,6 +5,7 @@ import { mockWallets, mockTransactions, mockNotifications } from '../data/mockDa
 
 // API Base URLs
 const USER_SERVICE_URL = 'http://localhost:8081/api/users';
+const WALLET_SERVICE_URL = 'http://localhost:8082/api/wallets';
 
 // Helper function to make HTTP requests
 const apiRequest = async (url, options = {}) => {
@@ -154,61 +155,196 @@ export const authAPI = {
   }
 };
 
-// Mock wallet API
+// Real wallet API - connects to Wallet Service
 export const walletAPI = {
-  getBalance: async (userId) => {
-    await delay(500);
-    
-    const wallet = mockWallets.find(w => w.userId === userId);
-    return {
-      success: true,
-      balance: wallet ? wallet.balance : 0,
-      currency: wallet ? wallet.currency : 'USD'
-    };
-  },
+  getBalance: async (userId, token) => {
+    try {
+      const response = await apiRequest(`${WALLET_SERVICE_URL}/user/${userId}/balance`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
 
-  getTransactions: async (userId) => {
-    await delay(500);
-    
-    const transactions = mockTransactions.filter(t => t.userId === userId);
-    return {
-      success: true,
-      transactions: transactions.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
-    };
-  },
-
-  transfer: async (fromUserId, toEmail, amount, description) => {
-    await delay(2000); // Simulate processing time
-    
-    const fromWallet = mockWallets.find(w => w.userId === fromUserId);
-    if (!fromWallet || fromWallet.balance < amount) {
+      if (response.success) {
+        return {
+          success: true,
+          balance: response.balance,
+          currency: response.currency || 'USD'
+        };
+      }
+      
       return {
         success: false,
-        error: 'Insufficient balance'
+        error: response.message || 'Failed to fetch balance'
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: error.message || 'Failed to fetch balance'
       };
     }
-    
-    // Update balance (in real app, this would be atomic database operation)
-    fromWallet.balance -= amount;
-    
-    // Create transaction record
-    const newTransaction = {
-      id: mockTransactions.length + 1,
-      userId: fromUserId,
-      type: 'SENT',
-      amount,
-      recipientEmail: toEmail,
-      description: description || 'Transfer',
-      timestamp: new Date().toISOString(),
-      status: 'COMPLETED'
-    };
-    
-    mockTransactions.unshift(newTransaction);
-    
+  },
+
+  getWallet: async (userId, token) => {
+    try {
+      const response = await apiRequest(`${WALLET_SERVICE_URL}/user/${userId}`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      if (response.success) {
+        return {
+          success: true,
+          wallet: response.wallet
+        };
+      }
+      
+      return {
+        success: false,
+        error: response.message || 'Failed to fetch wallet'
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: error.message || 'Failed to fetch wallet'
+      };
+    }
+  },
+
+  getTransactions: async (userId, token) => {
+    try {
+      const response = await apiRequest(`${WALLET_SERVICE_URL}/user/${userId}/transactions`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      if (response.success) {
+        return {
+          success: true,
+          transactions: response.transactions
+        };
+      }
+      
+      return {
+        success: false,
+        error: response.message || 'Failed to fetch transactions'
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: error.message || 'Failed to fetch transactions'
+      };
+    }
+  },
+
+  createWallet: async (userId, token) => {
+    try {
+      const response = await apiRequest(`${WALLET_SERVICE_URL}/create-for-user/${userId}`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      if (response.success) {
+        return {
+          success: true,
+          wallet: response.wallet,
+          message: response.message
+        };
+      }
+      
+      return {
+        success: false,
+        error: response.message || 'Failed to create wallet'
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: error.message || 'Failed to create wallet'
+      };
+    }
+  },
+
+  creditWallet: async (userId, amount, description, token) => {
+    try {
+      const params = new URLSearchParams({
+        amount: amount.toString(),
+        ...(description && { description })
+      });
+
+      const response = await apiRequest(`${WALLET_SERVICE_URL}/user/${userId}/credit?${params}`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      if (response.success) {
+        return {
+          success: true,
+          wallet: response.wallet,
+          message: response.message
+        };
+      }
+      
+      return {
+        success: false,
+        error: response.message || 'Failed to credit wallet'
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: error.message || 'Failed to credit wallet'
+      };
+    }
+  },
+
+  debitWallet: async (userId, amount, description, token) => {
+    try {
+      const params = new URLSearchParams({
+        amount: amount.toString(),
+        ...(description && { description })
+      });
+
+      const response = await apiRequest(`${WALLET_SERVICE_URL}/user/${userId}/debit?${params}`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      if (response.success) {
+        return {
+          success: true,
+          wallet: response.wallet,
+          message: response.message
+        };
+      }
+      
+      return {
+        success: false,
+        error: response.message || 'Failed to debit wallet'
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: error.message || 'Failed to debit wallet'
+      };
+    }
+  },
+
+  // For now, transfer functionality will be handled by Payment Service
+  // This is a placeholder that will be implemented later
+  transfer: async (fromUserId, toEmail, amount, description, token) => {
     return {
-      success: true,
-      transaction: newTransaction,
-      newBalance: fromWallet.balance
+      success: false,
+      error: 'Transfer functionality will be implemented in the Payment Service'
     };
   }
 };

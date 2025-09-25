@@ -80,6 +80,61 @@ services:
     networks:
       - riyada-network
 
+  # User Service
+  user-service:
+    build:
+      context: ./user-service
+      dockerfile: Dockerfile
+    container_name: riyada-user-service
+    ports:
+      - "8081:8081"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/user_db
+      SPRING_DATASOURCE_USERNAME: riyada_user
+      SPRING_DATASOURCE_PASSWORD: riyada_password
+      JWT_SECRET: riyada-user-service-secret-key-2024
+    depends_on:
+      - postgres
+    networks:
+      - riyada-network
+
+  # Wallet Service
+  wallet-service:
+    build:
+      context: ./wallet-service
+      dockerfile: Dockerfile
+    container_name: riyada-wallet-service
+    ports:
+      - "8082:8082"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/wallet_db
+      SPRING_DATASOURCE_USERNAME: riyada_user
+      SPRING_DATASOURCE_PASSWORD: riyada_password
+      JWT_SECRET: riyada-wallet-service-secret-key-2024
+      USER_SERVICE_URL: http://user-service:8081
+    depends_on:
+      - postgres
+      - user-service
+    networks:
+      - riyada-network
+
+  # Frontend
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: riyada-frontend
+    ports:
+      - "3000:3000"
+    environment:
+      REACT_APP_USER_SERVICE_URL: http://localhost:8081
+      REACT_APP_WALLET_SERVICE_URL: http://localhost:8082
+    depends_on:
+      - user-service
+      - wallet-service
+    networks:
+      - riyada-network
+
 volumes:
   postgres_data:
   redis_data:
