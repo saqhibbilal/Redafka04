@@ -3,6 +3,7 @@ com\riyada\userservice\service\UserService.class
 com\riyada\userservice\dto\UserResponseDTO.class
 com\riyada\userservice\util\UserMapper.class
 com\riyada\userservice\controller\UserController.class
+com\riyada\userservice\config\TimezoneConfig.class
 com\riyada\userservice\dto\LoginResponseDTO.class
 com\riyada\userservice\dto\UserUpdateDTO.class
 com\riyada\userservice\dto\UserRegistrationDTO.class

@@ -47,6 +47,7 @@ export const AuthProvider = ({ children }) => {
         return { success: false, error: response.error };
       }
     } catch (error) {
+      console.error('Login error:', error);
       return { success: false, error: 'Login failed. Please try again.' };
     } finally {
       setLoading(false);
@@ -60,16 +61,17 @@ export const AuthProvider = ({ children }) => {
       
       if (response.success) {
         setUser(response.user);
-        setToken(response.token);
+        // Note: Registration doesn't return a token, user needs to login after registration
+        // setToken(response.token);
         
-        localStorage.setItem('riyada_token', response.token);
         localStorage.setItem('riyada_user', JSON.stringify(response.user));
         
-        return { success: true };
+        return { success: true, message: response.message };
       } else {
         return { success: false, error: response.error };
       }
     } catch (error) {
+      console.error('Registration error:', error);
       return { success: false, error: 'Registration failed. Please try again.' };
     } finally {
       setLoading(false);

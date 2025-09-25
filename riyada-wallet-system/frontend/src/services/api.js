@@ -1,67 +1,156 @@
-// Mock API service - returns mock data
-// In Phase 2, this will make real HTTP requests to backend services
+// Real API service - makes HTTP requests to backend services
+// User Service runs on port 8081
 
-import { mockUsers, mockWallets, mockTransactions, mockNotifications } from '../data/mockData.js';
+import { mockWallets, mockTransactions, mockNotifications } from '../data/mockData.js';
 
-// Simulate API delay
-const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+// API Base URLs
+const USER_SERVICE_URL = 'http://localhost:8081/api/users';
 
-// Mock authentication
+// Helper function to make HTTP requests
+const apiRequest = async (url, options = {}) => {
+  const defaultOptions = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+
+  const config = {
+    ...defaultOptions,
+    ...options,
+    headers: {
+      ...defaultOptions.headers,
+      ...options.headers,
+    },
+  };
+
+  try {
+    const response = await fetch(url, config);
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || `HTTP error! status: ${response.status}`);
+    }
+
+    return data;
+  } catch (error) {
+    console.error('API request failed:', error);
+    throw error;
+  }
+};
+
+// Real authentication API
 export const authAPI = {
   login: async (email, password) => {
-    await delay(1000); // Simulate network delay
-    
-    const user = mockUsers.find(u => u.email === email && u.password === password);
-    
-    if (user) {
-      // Mock JWT token
-      const token = `mock-jwt-token-${user.id}-${Date.now()}`;
+    try {
+      const response = await apiRequest(`${USER_SERVICE_URL}/login`, {
+        method: 'POST',
+        body: JSON.stringify({ email, password }),
+      });
+
+      if (response.success && response.data) {
+        return {
+          success: true,
+          user: {
+            id: response.data.userId,
+            email: response.data.email,
+            firstName: response.data.firstName,
+            lastName: response.data.lastName,
+            name: `${response.data.firstName} ${response.data.lastName}`,
+          },
+          token: response.data.token,
+          tokenType: response.data.tokenType,
+          expiresIn: response.data.expiresIn
+        };
+      }
+      
       return {
-        success: true,
-        user: {
-          id: user.id,
-          email: user.email,
-          name: user.name,
-          phone: user.phone
-        },
-        token
+        success: false,
+        error: response.message || 'Login failed'
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: error.message || 'Login failed. Please try again.'
       };
     }
-    
-    return {
-      success: false,
-      error: 'Invalid email or password'
-    };
   },
 
   register: async (userData) => {
-    await delay(1000);
-    
-    // Check if user already exists
-    const existingUser = mockUsers.find(u => u.email === userData.email);
-    if (existingUser) {
+    try {
+      const response = await apiRequest(`${USER_SERVICE_URL}/register`, {
+        method: 'POST',
+        body: JSON.stringify({
+          email: userData.email,
+          password: userData.password,
+          firstName: userData.firstName,
+          lastName: userData.lastName,
+          phone: userData.phone
+        }),
+      });
+
+      if (response.success && response.user) {
+        return {
+          success: true,
+          user: {
+            id: response.user.id,
+            email: response.user.email,
+            firstName: response.user.firstName,
+            lastName: response.user.lastName,
+            name: `${response.user.firstName} ${response.user.lastName}`,
+            phone: response.user.phone
+          },
+          message: response.message
+        };
+      }
+      
       return {
         success: false,
-        error: 'User already exists'
+        error: response.message || 'Registration failed'
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: error.message || 'Registration failed. Please try again.'
       };
     }
-    
-    // Create new user (in real app, this would be saved to database)
-    const newUser = {
-      id: mockUsers.length + 1,
-      ...userData
-    };
-    
-    return {
-      success: true,
-      user: {
-        id: newUser.id,
-        email: newUser.email,
-        name: newUser.name,
-        phone: newUser.phone
-      },
-      token: `mock-jwt-token-${newUser.id}-${Date.now()}`
-    };
+  },
+
+  getUserProfile: async (userId, token) => {
+    try {
+      const response = await apiRequest(`${USER_SERVICE_URL}/profile/${userId}`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      if (response.success && response.user) {
+        return {
+          success: true,
+          user: {
+            id: response.user.id,
+            email: response.user.email,
+            firstName: response.user.firstName,
+            lastName: response.user.lastName,
+            name: `${response.user.firstName} ${response.user.lastName}`,
+            phone: response.user.phone,
+            isActive: response.user.isActive,
+            createdAt: response.user.createdAt,
+            updatedAt: response.user.updatedAt
+          }
+        };
+      }
+      
+      return {
+        success: false,
+        error: response.message || 'Failed to fetch user profile'
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: error.message || 'Failed to fetch user profile'
+      };
+    }
   }
 };
 
