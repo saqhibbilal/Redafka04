@@ -1,6 +1,26 @@
 import React, { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 
+// Validation utility functions
+const validateEmail = (email) => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+};
+
+const validatePassword = (password) => {
+  return password.length >= 6;
+};
+
+const validateName = (name) => {
+  return name.trim().length >= 2;
+};
+
+const validatePhone = (phone) => {
+  if (!phone) return true; // Phone is optional
+  const phoneRegex = /^[\+]?[1-9][\d]{0,15}$/;
+  return phoneRegex.test(phone.replace(/\s/g, ''));
+};
+
 const Login = () => {
   const { login, register, loading } = useAuth();
   const [email, setEmail] = useState('');
@@ -11,11 +31,31 @@ const Login = () => {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [isRegistering, setIsRegistering] = useState(false);
+  const [validationErrors, setValidationErrors] = useState({});
 
   const handleLogin = async (e) => {
     e.preventDefault();
     setError('');
     setSuccess('');
+    setValidationErrors({});
+
+    // Validate login form
+    const errors = {};
+    if (!email) {
+      errors.email = 'Email is required';
+    } else if (!validateEmail(email)) {
+      errors.email = 'Please enter a valid email address';
+    }
+    if (!password) {
+      errors.password = 'Password is required';
+    } else if (!validatePassword(password)) {
+      errors.password = 'Password must be at least 6 characters long';
+    }
+
+    if (Object.keys(errors).length > 0) {
+      setValidationErrors(errors);
+      return;
+    }
 
     const result = await login(email, password);
     if (!result.success) {
@@ -27,9 +67,36 @@ const Login = () => {
     e.preventDefault();
     setError('');
     setSuccess('');
+    setValidationErrors({});
 
-    if (!firstName || !lastName) {
-      setError('First name and last name are required');
+    // Validate registration form
+    const errors = {};
+    if (!email) {
+      errors.email = 'Email is required';
+    } else if (!validateEmail(email)) {
+      errors.email = 'Please enter a valid email address';
+    }
+    if (!password) {
+      errors.password = 'Password is required';
+    } else if (!validatePassword(password)) {
+      errors.password = 'Password must be at least 6 characters long';
+    }
+    if (!firstName) {
+      errors.firstName = 'First name is required';
+    } else if (!validateName(firstName)) {
+      errors.firstName = 'First name must be at least 2 characters long';
+    }
+    if (!lastName) {
+      errors.lastName = 'Last name is required';
+    } else if (!validateName(lastName)) {
+      errors.lastName = 'Last name must be at least 2 characters long';
+    }
+    if (phone && !validatePhone(phone)) {
+      errors.phone = 'Please enter a valid phone number';
+    }
+
+    if (Object.keys(errors).length > 0) {
+      setValidationErrors(errors);
       return;
     }
 
@@ -95,9 +162,14 @@ const Login = () => {
                       required
                       value={firstName}
                       onChange={(e) => setFirstName(e.target.value)}
-                      className="mt-1 block w-full px-3 py-2 border border-input rounded-md shadow-sm bg-background text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent"
+                      className={`mt-1 block w-full px-3 py-2 border rounded-md shadow-sm bg-background text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent ${
+                        validationErrors.firstName ? 'border-red-500' : 'border-input'
+                      }`}
                       placeholder="First name"
                     />
+                    {validationErrors.firstName && (
+                      <p className="mt-1 text-sm text-red-600">{validationErrors.firstName}</p>
+                    )}
                   </div>
                   <div>
                     <label htmlFor="lastName" className="block text-sm font-medium text-foreground">
@@ -110,9 +182,14 @@ const Login = () => {
                       required
                       value={lastName}
                       onChange={(e) => setLastName(e.target.value)}
-                      className="mt-1 block w-full px-3 py-2 border border-input rounded-md shadow-sm bg-background text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent"
+                      className={`mt-1 block w-full px-3 py-2 border rounded-md shadow-sm bg-background text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent ${
+                        validationErrors.lastName ? 'border-red-500' : 'border-input'
+                      }`}
                       placeholder="Last name"
                     />
+                    {validationErrors.lastName && (
+                      <p className="mt-1 text-sm text-red-600">{validationErrors.lastName}</p>
+                    )}
                   </div>
                 </div>
                 <div>
@@ -125,9 +202,14 @@ const Login = () => {
                     type="tel"
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
-                    className="mt-1 block w-full px-3 py-2 border border-input rounded-md shadow-sm bg-background text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent"
+                    className={`mt-1 block w-full px-3 py-2 border rounded-md shadow-sm bg-background text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent ${
+                      validationErrors.phone ? 'border-red-500' : 'border-input'
+                    }`}
                     placeholder="+1234567890"
                   />
+                  {validationErrors.phone && (
+                    <p className="mt-1 text-sm text-red-600">{validationErrors.phone}</p>
+                  )}
                 </div>
               </>
             )}
@@ -143,9 +225,14 @@ const Login = () => {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="mt-1 block w-full px-3 py-2 border border-input rounded-md shadow-sm bg-background text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent"
+                className={`mt-1 block w-full px-3 py-2 border rounded-md shadow-sm bg-background text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent ${
+                  validationErrors.email ? 'border-red-500' : 'border-input'
+                }`}
                 placeholder="Enter your email"
               />
+              {validationErrors.email && (
+                <p className="mt-1 text-sm text-red-600">{validationErrors.email}</p>
+              )}
             </div>
             <div>
               <label htmlFor="password" className="block text-sm font-medium text-foreground">
@@ -158,10 +245,15 @@ const Login = () => {
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="mt-1 block w-full px-3 py-2 border border-input rounded-md shadow-sm bg-background text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent"
+                className={`mt-1 block w-full px-3 py-2 border rounded-md shadow-sm bg-background text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent ${
+                  validationErrors.password ? 'border-red-500' : 'border-input'
+                }`}
                 placeholder="Enter your password"
                 minLength="6"
               />
+              {validationErrors.password && (
+                <p className="mt-1 text-sm text-red-600">{validationErrors.password}</p>
+              )}
             </div>
           </div>
 

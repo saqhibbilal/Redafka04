@@ -16,14 +16,32 @@ export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  // Helper function to check if token is expired
+  const isTokenExpired = (token) => {
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      const currentTime = Date.now() / 1000;
+      return payload.exp < currentTime;
+    } catch (error) {
+      return true; // If we can't parse the token, consider it expired
+    }
+  };
+
   // Check for existing token on app load
   useEffect(() => {
     const savedToken = localStorage.getItem('riyada_token');
     const savedUser = localStorage.getItem('riyada_user');
     
     if (savedToken && savedUser) {
-      setToken(savedToken);
-      setUser(JSON.parse(savedUser));
+      // Check if token is expired
+      if (isTokenExpired(savedToken)) {
+        // Token is expired, clear it
+        localStorage.removeItem('riyada_token');
+        localStorage.removeItem('riyada_user');
+      } else {
+        setToken(savedToken);
+        setUser(JSON.parse(savedUser));
+      }
     }
     
     setLoading(false);
@@ -85,6 +103,15 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem('riyada_user');
   };
 
+  // Function to validate token before making API calls
+  const validateToken = () => {
+    if (token && isTokenExpired(token)) {
+      logout();
+      return false;
+    }
+    return !!token;
+  };
+
   const value = {
     user,
     token,
@@ -92,6 +119,7 @@ export const AuthProvider = ({ children }) => {
     login,
     register,
     logout,
+    validateToken,
     isAuthenticated: !!user
   };
 
