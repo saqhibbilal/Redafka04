@@ -9,12 +9,13 @@ import com.riyada.walletservice.entity.WalletTransaction;
 import com.riyada.walletservice.repository.WalletRepository;
 import com.riyada.walletservice.repository.WalletTransactionRepository;
 import com.riyada.walletservice.util.WalletMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -24,6 +25,8 @@ import java.util.stream.Collectors;
 @Service
 @Transactional
 public class WalletService {
+
+    private static final Logger logger = LoggerFactory.getLogger(WalletService.class);
 
     @Autowired
     private WalletRepository walletRepository;
@@ -38,8 +41,11 @@ public class WalletService {
      * Create a new wallet for a user
      */
     public WalletResponseDTO createWallet(WalletCreateDTO createDTO) {
+        logger.info("Creating wallet for user: {}", createDTO.getUserId());
+
         // Check if user already has an active wallet
         if (walletRepository.existsActiveWalletByUserId(createDTO.getUserId())) {
+            logger.warn("User {} already has an active wallet", createDTO.getUserId());
             throw new RuntimeException("User already has an active wallet");
         }
 
@@ -47,11 +53,11 @@ public class WalletService {
         Wallet wallet = WalletMapper.toWallet(createDTO);
         wallet = walletRepository.save(wallet);
 
-        // Create initial transaction record
-        createTransactionRecord(wallet.getId(), WalletTransaction.TransactionType.CREDIT,
-                BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO,
-                "Wallet created");
+        // Create initial transaction record - SKIP for wallet creation to avoid
+        // validation errors
+        // Don't create transaction record during wallet initialization
 
+        logger.info("Wallet created successfully for user {} - ID: {}", createDTO.getUserId(), wallet.getId());
         return WalletMapper.toWalletResponseDTO(wallet);
     }
 
@@ -71,40 +77,50 @@ public class WalletService {
     }
 
     /**
-     * Get wallet by user ID
+     * Get wallet by user ID - auto-creates wallet if not found
      */
-    @Transactional(readOnly = true)
+    @Transactional
     public WalletResponseDTO getWalletByUserId(UUID userId) {
         Optional<Wallet> wallet = walletRepository.findActiveWalletByUserId(userId);
         if (wallet.isEmpty()) {
-            throw new RuntimeException("Wallet not found for user: " + userId);
+            // Auto-create wallet if not found
+            return createWalletForUser(userId);
         }
         return WalletMapper.toWalletResponseDTO(wallet.get());
     }
 
     /**
-     * Get wallet balance by user ID
+     * Get wallet balance by user ID - auto-creates wallet if not found
      */
-    @Transactional(readOnly = true)
+    @Transactional
     public BigDecimal getWalletBalance(UUID userId) {
+        logger.info("Getting wallet balance for user ID: {}", userId);
         Optional<Wallet> wallet = walletRepository.findActiveWalletByUserId(userId);
         if (wallet.isEmpty()) {
-            throw new RuntimeException("Wallet not found for user: " + userId);
+            logger.info("Wallet not found for user {} - creating new wallet", userId);
+            createWalletForUser(userId);
+            wallet = walletRepository.findActiveWalletByUserId(userId);
         }
-        return wallet.get().getBalance();
+        BigDecimal balance = wallet.get().getBalance();
+        logger.info("Wallet balance retrieved for user {}: {}", userId, balance);
+        return balance;
     }
 
     /**
-     * Credit amount to wallet
+     * Credit amount to wallet - auto-creates wallet if not found
      */
     public WalletResponseDTO creditWallet(UUID userId, BigDecimal amount, String description) {
+        logger.info("Crediting wallet for user {} with amount: {}", userId, amount);
         if (amount.compareTo(BigDecimal.ZERO) <= 0) {
+            logger.error("Invalid credit amount {} for user {}", amount, userId);
             throw new RuntimeException("Credit amount must be greater than zero");
         }
 
         Optional<Wallet> walletOpt = walletRepository.findActiveWalletByUserId(userId);
         if (walletOpt.isEmpty()) {
-            throw new RuntimeException("Wallet not found for user: " + userId);
+            logger.info("Wallet not found for user {} - creating new wallet", userId);
+            createWalletForUser(userId);
+            walletOpt = walletRepository.findActiveWalletByUserId(userId);
         }
 
         Wallet wallet = walletOpt.get();
@@ -116,6 +132,8 @@ public class WalletService {
         createTransactionRecord(wallet.getId(), WalletTransaction.TransactionType.CREDIT,
                 amount, balanceBefore, wallet.getBalance(), description);
 
+        logger.info("Successfully credited {} to wallet for user {} - New balance: {}",
+                amount, userId, wallet.getBalance());
         return WalletMapper.toWalletResponseDTO(wallet);
     }
 

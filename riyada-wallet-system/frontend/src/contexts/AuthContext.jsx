@@ -79,12 +79,25 @@ export const AuthProvider = ({ children }) => {
       
       if (response.success) {
         setUser(response.user);
-        // Note: Registration doesn't return a token, user needs to login after registration
-        // setToken(response.token);
-        
         localStorage.setItem('riyada_user', JSON.stringify(response.user));
         
-        return { success: true, message: response.message };
+        // Auto-login user after successful registration to get JWT token
+        try {
+          const loginResponse = await authAPI.login(userData.email, userData.password);
+          if (loginResponse.success) {
+            setUser(loginResponse.user);
+            setToken(loginResponse.token);
+            localStorage.setItem('riyada_token', loginResponse.token);
+            localStorage.setItem('riyada_user', JSON.stringify(loginResponse.user));
+            return { success: true, message: response.message };
+          } else {
+            // If auto-login fails, user is still registered but needs manual login
+            return { success: true, message: response.message + ". Please login to continue." };
+          }
+        } catch (loginError) {
+          // Registration successful but auto-login failed
+          return { success: true, message: response.message + ". Please login to continue." };
+        }
       } else {
         return { success: false, error: response.error };
       }

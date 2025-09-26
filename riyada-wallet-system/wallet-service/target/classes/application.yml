@@ -27,9 +27,9 @@ spring:
     time-zone: UTC
     date-format: yyyy-MM-dd'T'HH:mm:ss.SSS'Z'
 
-# JWT Configuration
+# JWT Configuration (aligned with user service)
 jwt:
-  secret: riyada-wallet-service-secret-key-2024
+  secret: riyada-jwt-secret-key-2024-very-secure-and-long-secret-key-for-production
   expiration: 86400000 # 24 hours in milliseconds
 
 # User Service Configuration

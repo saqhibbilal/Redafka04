@@ -92,7 +92,7 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/user_db
       SPRING_DATASOURCE_USERNAME: riyada_user
       SPRING_DATASOURCE_PASSWORD: riyada_password
-      JWT_SECRET: riyada-user-service-secret-key-2024
+      JWT_SECRET: riyada-jwt-secret-key-2024-very-secure-and-long-secret-key-for-production
     depends_on:
       - postgres
     networks:
@@ -110,7 +110,7 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/wallet_db
       SPRING_DATASOURCE_USERNAME: riyada_user
       SPRING_DATASOURCE_PASSWORD: riyada_password
-      JWT_SECRET: riyada-wallet-service-secret-key-2024
+      JWT_SECRET: riyada-jwt-secret-key-2024-very-secure-and-long-secret-key-for-production
       USER_SERVICE_URL: http://user-service:8081
     depends_on:
       - postgres
@@ -118,14 +118,14 @@ services:
     networks:
       - riyada-network
 
-  # Frontend
+  # Frontend (Vite - runs on port 5173)
   frontend:
     build:
       context: ./frontend
       dockerfile: Dockerfile
     container_name: riyada-frontend
     ports:
-      - "3000:3000"
+      - "5173:5173"
     environment:
       REACT_APP_USER_SERVICE_URL: http://localhost:8081
       REACT_APP_WALLET_SERVICE_URL: http://localhost:8082
