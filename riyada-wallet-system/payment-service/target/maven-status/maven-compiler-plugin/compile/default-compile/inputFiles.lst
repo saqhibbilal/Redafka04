@@ -6,6 +6,7 @@ C:\Users\USER\Desktop\trioes\Riyada\riyada-wallet-system\payment-service\src\mai
 C:\Users\USER\Desktop\trioes\Riyada\riyada-wallet-system\payment-service\src\main\java\com\riyada\paymentservice\repository\PaymentRepository.java
 C:\Users\USER\Desktop\trioes\Riyada\riyada-wallet-system\payment-service\src\main\java\com\riyada\paymentservice\client\UserServiceClient.java
 C:\Users\USER\Desktop\trioes\Riyada\riyada-wallet-system\payment-service\src\main\java\com\riyada\paymentservice\entity\Payment.java
+C:\Users\USER\Desktop\trioes\Riyada\riyada-wallet-system\payment-service\src\main\java\com\riyada\paymentservice\client\LedgerServiceClient.java
 C:\Users\USER\Desktop\trioes\Riyada\riyada-wallet-system\payment-service\src\main\java\com\riyada\paymentservice\config\TimezoneConfig.java
 C:\Users\USER\Desktop\trioes\Riyada\riyada-wallet-system\payment-service\src\main\java\com\riyada\paymentservice\service\PaymentService.java
 C:\Users\USER\Desktop\trioes\Riyada\riyada-wallet-system\payment-service\src\main\java\com\riyada\paymentservice\dto\PaymentResponseDTO.java

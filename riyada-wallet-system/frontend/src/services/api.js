@@ -7,6 +7,7 @@ import { mockWallets, mockTransactions, mockNotifications } from '../data/mockDa
 const USER_SERVICE_URL = 'http://localhost:8081/api/users';
 const WALLET_SERVICE_URL = 'http://localhost:8082/api/wallets';
 const PAYMENT_SERVICE_URL = 'http://localhost:8083/api/payments';
+const LEDGER_SERVICE_URL = 'http://localhost:8084/api/ledger';
 
 // Helper function to make HTTP requests
 const apiRequest = async (url, options = {}) => {
@@ -37,6 +38,47 @@ const apiRequest = async (url, options = {}) => {
   } catch (error) {
     console.error('API request failed:', error);
     throw error;
+  }
+};
+
+// Real user API
+export const userAPI = {
+  getUserProfile: async (userId, token) => {
+    try {
+      const response = await apiRequest(`${USER_SERVICE_URL}/profile/${userId}`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      if (response.success && response.user) {
+        return {
+          success: true,
+          user: {
+            id: response.user.id,
+            email: response.user.email,
+            firstName: response.user.firstName,
+            lastName: response.user.lastName,
+            name: `${response.user.firstName} ${response.user.lastName}`,
+            phone: response.user.phone,
+            isActive: response.user.isActive,
+            createdAt: response.user.createdAt,
+            updatedAt: response.user.updatedAt
+          }
+        };
+      }
+      
+      return {
+        success: false,
+        error: response.message || 'Failed to fetch user profile'
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: error.message || 'Failed to fetch user profile'
+      };
+    }
   }
 };
 
@@ -523,6 +565,203 @@ export const paymentAPI = {
       return {
         success: false,
         error: error.message || 'Failed to cancel payment'
+      };
+    }
+  }
+};
+
+// Ledger Service API - Real transaction history and audit trail
+export const ledgerAPI = {
+  // Get user transactions with pagination
+  getUserTransactions: async (userId, token, page = 0, size = 20) => {
+    try {
+      const response = await apiRequest(`${LEDGER_SERVICE_URL}/transactions?page=${page}&size=${size}`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      if (response.success) {
+        return {
+          success: true,
+          transactions: response.data.content || [],
+          totalElements: response.data.totalElements || 0,
+          totalPages: response.data.totalPages || 0,
+          currentPage: response.data.number || 0,
+          size: response.data.size || size
+        };
+      }
+      
+      return {
+        success: false,
+        error: response.message || 'Failed to fetch transactions'
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: error.message || 'Failed to fetch transactions'
+      };
+    }
+  },
+
+  // Get recent transactions for a user
+  getRecentTransactions: async (userId, token, limit = 10) => {
+    try {
+      const response = await apiRequest(`${LEDGER_SERVICE_URL}/transactions/recent?limit=${limit}`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      if (response.success) {
+        return {
+          success: true,
+          transactions: response.data || []
+        };
+      }
+      
+      return {
+        success: false,
+        error: response.message || 'Failed to fetch recent transactions'
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: error.message || 'Failed to fetch recent transactions'
+      };
+    }
+  },
+
+  // Get transaction by ID
+  getTransactionById: async (transactionId, token) => {
+    try {
+      const response = await apiRequest(`${LEDGER_SERVICE_URL}/transactions/${transactionId}`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      if (response.success) {
+        return {
+          success: true,
+          transaction: response.data
+        };
+      }
+      
+      return {
+        success: false,
+        error: response.message || 'Failed to fetch transaction'
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: error.message || 'Failed to fetch transaction'
+      };
+    }
+  },
+
+  // Get audit trail for a transaction
+  getAuditTrail: async (transactionId, token) => {
+    try {
+      const response = await apiRequest(`${LEDGER_SERVICE_URL}/transactions/${transactionId}/audit-trail`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      if (response.success) {
+        return {
+          success: true,
+          auditLogs: response.data || []
+        };
+      }
+      
+      return {
+        success: false,
+        error: response.message || 'Failed to fetch audit trail'
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: error.message || 'Failed to fetch audit trail'
+      };
+    }
+  },
+
+  // Get financial summary for user
+  getFinancialSummary: async (userId, token) => {
+    try {
+      const response = await apiRequest(`${LEDGER_SERVICE_URL}/reports/summary`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      if (response.success) {
+        return {
+          success: true,
+          summary: response.data
+        };
+      }
+      
+      return {
+        success: false,
+        error: response.message || 'Failed to fetch financial summary'
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: error.message || 'Failed to fetch financial summary'
+      };
+    }
+  },
+
+  // Search transactions with filters
+  searchTransactions: async (userId, token, filters = {}) => {
+    try {
+      const params = new URLSearchParams();
+      
+      if (filters.status) params.append('status', filters.status);
+      if (filters.transactionType) params.append('transactionType', filters.transactionType);
+      if (filters.startDate) params.append('startDate', filters.startDate);
+      if (filters.endDate) params.append('endDate', filters.endDate);
+      if (filters.page !== undefined) params.append('page', filters.page);
+      if (filters.size !== undefined) params.append('size', filters.size);
+      
+      const queryString = params.toString();
+      const url = `${LEDGER_SERVICE_URL}/search${queryString ? '?' + queryString : ''}`;
+
+      const response = await apiRequest(url, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      if (response.success) {
+        return {
+          success: true,
+          transactions: response.data.content || [],
+          totalElements: response.data.totalElements || 0,
+          totalPages: response.data.totalPages || 0,
+          currentPage: response.data.number || 0,
+          size: response.data.size || 20
+        };
+      }
+      
+      return {
+        success: false,
+        error: response.message || 'Failed to search transactions'
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: error.message || 'Failed to search transactions'
       };
     }
   }

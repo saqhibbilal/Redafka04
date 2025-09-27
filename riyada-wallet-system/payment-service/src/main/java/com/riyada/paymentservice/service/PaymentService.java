@@ -2,6 +2,7 @@ package com.riyada.paymentservice.service;
 
 import com.riyada.paymentservice.client.UserServiceClient;
 import com.riyada.paymentservice.client.WalletServiceClient;
+import com.riyada.paymentservice.client.LedgerServiceClient;
 import com.riyada.paymentservice.dto.PaymentRequestDTO;
 import com.riyada.paymentservice.dto.PaymentResponseDTO;
 import com.riyada.paymentservice.dto.PaymentStatusDTO;
@@ -36,6 +37,9 @@ public class PaymentService {
 
     @Autowired
     private WalletServiceClient walletServiceClient;
+
+    @Autowired
+    private LedgerServiceClient ledgerServiceClient;
 
     /**
      * Process a payment transfer between users
@@ -118,6 +122,27 @@ public class PaymentService {
                 payment.setProcessedAt(LocalDateTime.now());
                 payment = paymentRepository.save(payment);
 
+                // Step 7: Record transaction in ledger service
+                try {
+                    LedgerServiceClient.RecordTransactionRequest ledgerRequest = new LedgerServiceClient.RecordTransactionRequest(
+                            payment.getId(),
+                            fromUserId,
+                            toUserId,
+                            requestDTO.getAmount(),
+                            payment.getCurrency(),
+                            "TRANSFER",
+                            "COMPLETED",
+                            requestDTO.getDescription() != null ? requestDTO.getDescription()
+                                    : "Transfer to " + requestDTO.getToEmail());
+
+                    ledgerServiceClient.recordTransaction(ledgerRequest);
+                    logger.info("Transaction recorded in ledger for payment: {}", payment.getReferenceId());
+                } catch (Exception e) {
+                    logger.error("Failed to record transaction in ledger for payment: {}",
+                            payment.getReferenceId(), e);
+                    // Don't fail the payment if ledger recording fails
+                }
+
                 logger.info("Payment completed successfully: {}", payment.getReferenceId());
 
             } catch (Exception e) {
@@ -125,6 +150,25 @@ public class PaymentService {
                 payment.setStatus(Payment.PaymentStatus.FAILED);
                 payment.setFailureReason(e.getMessage());
                 payment = paymentRepository.save(payment);
+
+                // Record failed transaction in ledger service
+                try {
+                    LedgerServiceClient.RecordTransactionRequest ledgerRequest = new LedgerServiceClient.RecordTransactionRequest(
+                            payment.getId(),
+                            fromUserId,
+                            toUserId,
+                            requestDTO.getAmount(),
+                            payment.getCurrency(),
+                            "TRANSFER",
+                            "FAILED",
+                            "Failed transfer to " + requestDTO.getToEmail() + " - " + e.getMessage());
+
+                    ledgerServiceClient.recordTransaction(ledgerRequest);
+                    logger.info("Failed transaction recorded in ledger for payment: {}", payment.getReferenceId());
+                } catch (Exception ledgerException) {
+                    logger.error("Failed to record failed transaction in ledger for payment: {}",
+                            payment.getReferenceId(), ledgerException);
+                }
 
                 logger.error("Payment failed: {} - {}", payment.getReferenceId(), e.getMessage());
                 throw e;
