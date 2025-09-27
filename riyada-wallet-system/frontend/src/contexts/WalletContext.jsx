@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { walletAPI } from '../services/api';
+import { walletAPI, paymentAPI } from '../services/api';
 import { useAuth } from './AuthContext';
 
 const WalletContext = createContext();
@@ -78,14 +78,18 @@ export const WalletProvider = ({ children }) => {
 
     setLoading(true);
     try {
-      const response = await walletAPI.transfer(user.id, toEmail, amount, description, token);
+      // Use Payment Service for transfers
+      const response = await paymentAPI.transfer(toEmail, amount, description, token);
       
       if (response.success) {
-        // Update local state
-        setBalance(response.newBalance);
-        setTransactions(prev => [response.transaction, ...prev]);
+        // Refresh wallet data to get updated balance and transactions
+        await loadWalletData();
         
-        return { success: true, transaction: response.transaction };
+        return { 
+          success: true, 
+          payment: response.payment,
+          message: response.message 
+        };
       } else {
         return { success: false, error: response.error };
       }

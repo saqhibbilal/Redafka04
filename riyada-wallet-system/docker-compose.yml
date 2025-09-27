@@ -118,6 +118,28 @@ services:
     networks:
       - riyada-network
 
+  # Payment Service
+  payment-service:
+    build:
+      context: ./payment-service
+      dockerfile: Dockerfile
+    container_name: riyada-payment-service
+    ports:
+      - "8083:8083"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/payment_db
+      SPRING_DATASOURCE_USERNAME: riyada_user
+      SPRING_DATASOURCE_PASSWORD: riyada_password
+      JWT_SECRET: riyada-jwt-secret-key-2024-very-secure-and-long-secret-key-for-production
+      SERVICES_USER_SERVICE_URL: http://user-service:8081
+      SERVICES_WALLET_SERVICE_URL: http://wallet-service:8082
+    depends_on:
+      - postgres
+      - user-service
+      - wallet-service
+    networks:
+      - riyada-network
+
   # Frontend (Vite - runs on port 5173)
   frontend:
     build:
@@ -129,9 +151,11 @@ services:
     environment:
       REACT_APP_USER_SERVICE_URL: http://localhost:8081
       REACT_APP_WALLET_SERVICE_URL: http://localhost:8082
+      REACT_APP_PAYMENT_SERVICE_URL: http://localhost:8083
     depends_on:
       - user-service
       - wallet-service
+      - payment-service
     networks:
       - riyada-network
 

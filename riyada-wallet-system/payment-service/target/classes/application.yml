@@ -1,0 +1,53 @@
+server:
+  port: 8083
+
+spring:
+  application:
+    name: payment-service
+
+  # Database Configuration
+  datasource:
+    url: jdbc:postgresql://localhost:5432/payment_db
+    username: riyada_user
+    password: riyada_password
+    driver-class-name: org.postgresql.Driver
+
+  # JPA Configuration
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+
+# JWT Configuration (aligned with user service)
+jwt:
+  secret: riyada-jwt-secret-key-2024-very-secure-and-long-secret-key-for-production
+  expiration: 86400000 # 24 hours in milliseconds
+
+# External Service URLs
+services:
+  user-service:
+    url: http://localhost:8081
+  wallet-service:
+    url: http://localhost:8082
+
+# Logging
+logging:
+  level:
+    com.riyada: DEBUG
+    org.springframework.security: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+
+# Management endpoints
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: always

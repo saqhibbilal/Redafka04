@@ -268,31 +268,21 @@ public class WalletController {
     /**
      * Transfer amount between wallets
      * POST /api/wallets/transfer
+     * 
+     * NOTE: This endpoint is deprecated. Please use the Payment Service for
+     * transfers.
+     * POST /api/payments/transfer
      */
     @PostMapping("/transfer")
     public ResponseEntity<?> transferAmount(@Valid @RequestBody TransferRequestDTO transferRequest) {
-        try {
-            UUID fromUserId = UUID.fromString(transferRequest.getFromUserId());
+        Map<String, Object> response = new HashMap<>();
+        response.put("success", false);
+        response.put("message",
+                "Transfer functionality has been moved to Payment Service. Please use POST /api/payments/transfer");
+        response.put("error", "DEPRECATED");
+        response.put("redirect", "/api/payments/transfer");
 
-            // For now, we'll implement a simple transfer within the system
-            // In a real system, you'd need to find the recipient by email
-            // This is a simplified version for the current implementation
-
-            Map<String, Object> response = new HashMap<>();
-            response.put("success", false);
-            response.put("message", "Transfer functionality will be implemented in the Payment Service");
-            response.put("error", "NOT_IMPLEMENTED");
-
-            return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(response);
-
-        } catch (Exception e) {
-            Map<String, Object> errorResponse = new HashMap<>();
-            errorResponse.put("success", false);
-            errorResponse.put("message", "An unexpected error occurred during transfer");
-            errorResponse.put("error", "INTERNAL_SERVER_ERROR");
-
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
-        }
+        return ResponseEntity.status(HttpStatus.MOVED_PERMANENTLY).body(response);
     }
 
     /**

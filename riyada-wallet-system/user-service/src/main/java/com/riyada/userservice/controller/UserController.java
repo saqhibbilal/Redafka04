@@ -151,6 +151,48 @@ public class UserController {
     }
 
     /**
+     * Get user profile by email
+     * GET /api/users/profile/email/{email}
+     */
+    @GetMapping("/profile/email/{email}")
+    public ResponseEntity<?> getUserProfileByEmail(@PathVariable String email) {
+        try {
+            // Get user by email
+            User user = userService.getUserByEmail(email)
+                    .orElseThrow(() -> new RuntimeException("User not found with email: " + email));
+
+            // Convert to response DTO
+            UserResponseDTO responseDTO = UserMapper.toUserResponseDTO(user);
+
+            // Create success response
+            Map<String, Object> response = new HashMap<>();
+            response.put("success", true);
+            response.put("message", "User profile retrieved successfully");
+            response.put("user", responseDTO);
+
+            return ResponseEntity.ok(response);
+
+        } catch (RuntimeException e) {
+            // Handle user not found errors
+            Map<String, Object> errorResponse = new HashMap<>();
+            errorResponse.put("success", false);
+            errorResponse.put("message", e.getMessage());
+            errorResponse.put("error", "USER_NOT_FOUND");
+
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
+
+        } catch (Exception e) {
+            // Handle unexpected errors
+            Map<String, Object> errorResponse = new HashMap<>();
+            errorResponse.put("success", false);
+            errorResponse.put("message", "An unexpected error occurred while retrieving user profile");
+            errorResponse.put("error", "INTERNAL_SERVER_ERROR");
+
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
+        }
+    }
+
+    /**
      * Update user profile
      * PUT /api/users/profile/{userId}
      */

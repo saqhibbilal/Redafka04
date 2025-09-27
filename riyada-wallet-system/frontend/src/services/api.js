@@ -6,6 +6,7 @@ import { mockWallets, mockTransactions, mockNotifications } from '../data/mockDa
 // API Base URLs
 const USER_SERVICE_URL = 'http://localhost:8081/api/users';
 const WALLET_SERVICE_URL = 'http://localhost:8082/api/wallets';
+const PAYMENT_SERVICE_URL = 'http://localhost:8083/api/payments';
 
 // Helper function to make HTTP requests
 const apiRequest = async (url, options = {}) => {
@@ -339,13 +340,191 @@ export const walletAPI = {
     }
   },
 
-  // For now, transfer functionality will be handled by Payment Service
-  // This is a placeholder that will be implemented later
+  // Transfer functionality is now handled by Payment Service
   transfer: async (fromUserId, toEmail, amount, description, token) => {
-    return {
-      success: false,
-      error: 'Transfer functionality will be implemented in the Payment Service'
-    };
+    try {
+      const response = await apiRequest(`${PAYMENT_SERVICE_URL}/transfer`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          toEmail,
+          amount,
+          description
+        })
+      });
+
+      if (response.success) {
+        return {
+          success: true,
+          payment: response.payment,
+          message: response.message
+        };
+      }
+      
+      return {
+        success: false,
+        error: response.message || 'Transfer failed'
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: error.message || 'Transfer failed. Please try again.'
+      };
+    }
+  }
+};
+
+// Payment Service API
+export const paymentAPI = {
+  // Process a payment transfer
+  transfer: async (toEmail, amount, description, token) => {
+    try {
+      const response = await apiRequest(`${PAYMENT_SERVICE_URL}/transfer`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          toEmail,
+          amount,
+          description
+        })
+      });
+
+      if (response.success) {
+        return {
+          success: true,
+          payment: response.payment,
+          message: response.message
+        };
+      }
+      
+      return {
+        success: false,
+        error: response.message || 'Transfer failed'
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: error.message || 'Transfer failed. Please try again.'
+      };
+    }
+  },
+
+  // Get payment by ID
+  getPayment: async (paymentId, token) => {
+    try {
+      const response = await apiRequest(`${PAYMENT_SERVICE_URL}/${paymentId}`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      if (response.success) {
+        return {
+          success: true,
+          payment: response.payment
+        };
+      }
+      
+      return {
+        success: false,
+        error: response.message || 'Failed to fetch payment'
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: error.message || 'Failed to fetch payment'
+      };
+    }
+  },
+
+  // Get payment status by reference ID
+  getPaymentStatus: async (referenceId) => {
+    try {
+      const response = await apiRequest(`${PAYMENT_SERVICE_URL}/status/${referenceId}`, {
+        method: 'GET'
+      });
+
+      if (response.success) {
+        return {
+          success: true,
+          status: response.status
+        };
+      }
+      
+      return {
+        success: false,
+        error: response.message || 'Failed to fetch payment status'
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: error.message || 'Failed to fetch payment status'
+      };
+    }
+  },
+
+  // Get user's payment history
+  getUserPayments: async (userId, token) => {
+    try {
+      const response = await apiRequest(`${PAYMENT_SERVICE_URL}/user/${userId}`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      if (response.success) {
+        return {
+          success: true,
+          payments: response.payments
+        };
+      }
+      
+      return {
+        success: false,
+        error: response.message || 'Failed to fetch payment history'
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: error.message || 'Failed to fetch payment history'
+      };
+    }
+  },
+
+  // Cancel a pending payment
+  cancelPayment: async (paymentId, token) => {
+    try {
+      const response = await apiRequest(`${PAYMENT_SERVICE_URL}/${paymentId}/cancel`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      if (response.success) {
+        return {
+          success: true,
+          payment: response.payment,
+          message: response.message
+        };
+      }
+      
+      return {
+        success: false,
+        error: response.message || 'Failed to cancel payment'
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: error.message || 'Failed to cancel payment'
+      };
+    }
   }
 };
 
