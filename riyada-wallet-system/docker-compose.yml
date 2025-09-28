@@ -133,10 +133,34 @@ services:
       JWT_SECRET: riyada-jwt-secret-key-2024-very-secure-and-long-secret-key-for-production
       SERVICES_USER_SERVICE_URL: http://user-service:8081
       SERVICES_WALLET_SERVICE_URL: http://wallet-service:8082
+      SERVICES_LEDGER_SERVICE_URL: http://ledger-service:8084
     depends_on:
       - postgres
       - user-service
       - wallet-service
+      - ledger-service
+    networks:
+      - riyada-network
+
+  # Ledger Service
+  ledger-service:
+    build:
+      context: ./ledger-service
+      dockerfile: Dockerfile
+    container_name: riyada-ledger-service
+    ports:
+      - "8084:8084"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/ledger_db
+      SPRING_DATASOURCE_USERNAME: riyada_user
+      SPRING_DATASOURCE_PASSWORD: riyada_password
+      JWT_SECRET: riyada-jwt-secret-key-2024-very-secure-and-long-secret-key-for-production
+      SERVICES_PAYMENT_SERVICE_URL: http://payment-service:8083
+      SERVICES_USER_SERVICE_URL: http://user-service:8081
+    depends_on:
+      - postgres
+      - payment-service
+      - user-service
     networks:
       - riyada-network
 
@@ -152,10 +176,12 @@ services:
       REACT_APP_USER_SERVICE_URL: http://localhost:8081
       REACT_APP_WALLET_SERVICE_URL: http://localhost:8082
       REACT_APP_PAYMENT_SERVICE_URL: http://localhost:8083
+      REACT_APP_LEDGER_SERVICE_URL: http://localhost:8084
     depends_on:
       - user-service
       - wallet-service
       - payment-service
+      - ledger-service
     networks:
       - riyada-network
 

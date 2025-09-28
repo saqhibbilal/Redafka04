@@ -1,14 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { useWallet } from '../contexts/WalletContext';
-import { walletAPI } from '../services/api';
+import { walletAPI, ledgerAPI } from '../services/api';
 import Modal from '../components/Modal';
 
 const Dashboard = () => {
   const navigate = useNavigate();
   const { user, token } = useAuth();
   const { balance, transactions, loading, refreshWallet } = useWallet();
+  
+  // Recent transactions from Ledger Service
+  const [recentTransactions, setRecentTransactions] = useState([]);
+  const [loadingTransactions, setLoadingTransactions] = useState(false);
   
   // Modal state
   const [isAddMoneyModalOpen, setIsAddMoneyModalOpen] = useState(false);
@@ -17,6 +21,69 @@ const Dashboard = () => {
   const [amount, setAmount] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+
+  // Load recent transactions from Ledger Service
+  useEffect(() => {
+    if (user && token) {
+      loadRecentTransactions();
+    }
+  }, [user, token]);
+
+  const loadRecentTransactions = async () => {
+    if (!user || !token) return;
+    
+    setLoadingTransactions(true);
+    
+    // Debug: Log user ID to understand the issue
+    console.log('Loading recent transactions for user ID:', user.id, 'Type:', typeof user.id);
+    
+    try {
+      const response = await ledgerAPI.getRecentTransactions(user.id, token, 5);
+      if (response.success) {
+        setRecentTransactions(response.transactions || []);
+      } else {
+        console.log('Recent transactions failed:', response.error);
+      }
+    } catch (error) {
+      console.error('Failed to load recent transactions:', error);
+    } finally {
+      setLoadingTransactions(false);
+    }
+  };
+
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+  };
+
+  const formatAmount = (amount, isSent) => {
+    const formattedAmount = parseFloat(amount).toFixed(2);
+    return isSent ? `-$${formattedAmount}` : `+$${formattedAmount}`;
+  };
+
+  const isTransactionSent = (transaction) => {
+    return transaction.senderUserId === user.id;
+  };
+
+  const getStatusIcon = (status, isSent) => {
+    if (status === 'COMPLETED') {
+      return isSent ? (
+        <span className="text-red-600 font-bold">-</span>
+      ) : (
+        <span className="text-green-600 font-bold">+</span>
+      );
+    } else if (status === 'FAILED') {
+      return <span className="text-red-600 font-bold">✗</span>;
+    } else if (status === 'PENDING') {
+      return <span className="text-yellow-600 font-bold">⏳</span>;
+    }
+    return <span className="text-gray-600 font-bold">?</span>;
+  };
 
   const handleAddMoney = () => {
     setAmount('');
@@ -41,6 +108,7 @@ const Dashboard = () => {
       
       if (response.success) {
         refreshWallet(); // Refresh to show new balance
+        loadRecentTransactions(); // Refresh recent transactions
         setIsAddMoneyModalOpen(false);
         setIsSuccessModalOpen(true);
       } else {
@@ -55,22 +123,6 @@ const Dashboard = () => {
     }
   };
 
-  const formatAmount = (amount, type) => {
-    const formatted = `$${amount.toFixed(2)}`;
-    return type === 'SENT' ? `-${formatted}` : `+${formatted}`;
-  };
-
-  const formatDate = (timestamp) => {
-    const date = new Date(timestamp);
-    const now = new Date();
-    const diffTime = Math.abs(now - date);
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    
-    if (diffDays === 1) return 'Today';
-    if (diffDays === 2) return 'Yesterday';
-    if (diffDays <= 7) return `${diffDays - 1} days ago`;
-    return date.toLocaleDateString();
-  };
 
   return (
     <div className="max-w-7xl mx-auto">
@@ -132,43 +184,58 @@ const Dashboard = () => {
 
       {/* Recent Transactions */}
       <div className="mb-8">
-        <h2 className="text-lg font-medium text-foreground mb-4">Recent Transactions</h2>
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-lg font-medium text-foreground">Recent Transactions</h2>
+          <button
+            onClick={() => navigate('/history')}
+            className="text-sm text-primary hover:text-primary/80 underline"
+          >
+            View All
+          </button>
+        </div>
         <div className="bg-card border border-border rounded-lg overflow-hidden">
-          {loading ? (
+          {loadingTransactions ? (
             <div className="p-8 text-center">
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto"></div>
-              <p className="mt-2 text-muted-foreground">Loading transactions...</p>
+              <p className="mt-2 text-muted-foreground">Loading recent transactions...</p>
             </div>
-          ) : transactions.length > 0 ? (
-            transactions.slice(0, 3).map((transaction) => (
-              <div key={transaction.id} className="p-4 border-b border-border last:border-b-0">
-                <div className="flex justify-between items-center">
-                  <div>
-                    <div className="font-medium text-card-foreground">
-                      {transaction.type === 'SENT' && `Payment to ${transaction.recipientEmail}`}
-                      {transaction.type === 'RECEIVED' && `Payment from ${transaction.senderEmail}`}
-                      {transaction.type === 'TOP_UP' && 'Wallet Top-up'}
-                    </div>
-                    <div className="text-sm text-muted-foreground">
-                      {formatDate(transaction.timestamp)}
-                    </div>
-                    {transaction.description && (
-                      <div className="text-sm text-muted-foreground mt-1">
-                        {transaction.description}
+          ) : recentTransactions.length > 0 ? (
+            recentTransactions.slice(0, 5).map((transaction) => {
+              const isSent = isTransactionSent(transaction);
+              const otherEmail = transaction.toEmail || 'Unknown';
+              const otherUser = isSent ? 'Payment to' : 'Payment from';
+              
+              return (
+                <div key={transaction.id} className="p-4 border-b border-border last:border-b-0">
+                  <div className="flex justify-between items-center">
+                    <div className="flex items-center space-x-3">
+                      <div className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center">
+                        {getStatusIcon(transaction.status, isSent)}
                       </div>
-                    )}
-                  </div>
-                  <div className={`font-medium ${
-                    transaction.type === 'SENT' ? 'text-red-600' : 'text-green-600'
-                  }`}>
-                    {formatAmount(transaction.amount, transaction.type)}
+                      <div>
+                        <div className="font-medium text-card-foreground">
+                          {otherUser} {otherEmail}
+                        </div>
+                        <div className="text-sm text-muted-foreground">
+                          {formatDate(transaction.createdAt)}
+                        </div>
+                        {transaction.description && (
+                          <div className="text-sm text-muted-foreground mt-1">
+                            {transaction.description}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                    <div className={`font-medium ${isSent ? 'text-red-600' : 'text-green-600'}`}>
+                      {formatAmount(transaction.amount, isSent)}
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))
+              );
+            })
           ) : (
             <div className="p-8 text-center text-muted-foreground">
-              No transactions yet
+              No recent transactions
             </div>
           )}
         </div>

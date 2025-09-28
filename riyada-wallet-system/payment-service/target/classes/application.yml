@@ -33,6 +33,7 @@ services:
     url: http://localhost:8081
   wallet-service:
     url: http://localhost:8082
+  ledger-service-url: http://localhost:8084
 
 # Logging
 logging:
