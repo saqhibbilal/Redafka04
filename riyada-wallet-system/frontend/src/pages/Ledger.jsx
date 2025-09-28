@@ -54,11 +54,17 @@ const Ledger = () => {
     
     setLoading(true);
     setError('');
+    
+    // Debug: Log user ID to understand the issue
+    console.log('Loading financial data for user ID:', user.id, 'Type:', typeof user.id);
+    
     try {
       // Load financial summary
       const summaryResponse = await ledgerAPI.getFinancialSummary(user.id, token);
       if (summaryResponse.success) {
         setFinancialSummary(summaryResponse.summary);
+      } else {
+        console.log('Financial summary failed:', summaryResponse.error);
       }
 
       // Load transaction categories data
@@ -71,6 +77,8 @@ const Ledger = () => {
         // Process monthly data
         const monthlyData = processMonthlyData(transactions);
         setMonthlyData(monthlyData);
+      } else {
+        console.log('Transaction categories failed:', categoriesResponse.error);
       }
     } catch (error) {
       setError('Failed to load financial data');
@@ -251,18 +259,30 @@ const Ledger = () => {
     return date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
   };
 
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+  };
+
   if (loading) {
     return (
-      <div className="max-w-7xl mx-auto p-6">
-        <div className="text-center">
-          <div className="text-muted-foreground">Loading financial data...</div>
+      <div className="max-w-7xl mx-auto">
+        <div className="text-center py-12">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
+          <p className="mt-4 text-muted-foreground">Loading financial data...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="max-w-7xl mx-auto p-6">
+    <div className="max-w-7xl mx-auto">
       {/* Header */}
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-foreground">Financial Dashboard</h1>
@@ -272,12 +292,12 @@ const Ledger = () => {
       </div>
 
       {error && (
-        <div className="mb-6 bg-red-50 border border-red-200 rounded-lg p-4">
-          <div className="text-red-600">{error}</div>
+        <div className="mb-6 bg-destructive/10 border border-destructive/20 rounded-lg p-4">
+          <div className="text-destructive">{error}</div>
           <div className="text-center mt-2">
             <button 
               onClick={loadFinancialData}
-              className="text-blue-600 hover:text-blue-800 underline"
+              className="text-primary hover:text-primary/80 underline"
             >
               Try again
             </button>
@@ -288,7 +308,7 @@ const Ledger = () => {
       {/* Balance Overview */}
       {balance && (
         <div className="mb-8">
-          <div className="bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg p-6 text-white">
+          <div className="bg-gradient-to-r from-primary to-primary/80 rounded-lg p-6 text-primary-foreground">
             <h2 className="text-xl font-semibold mb-2">Current Balance</h2>
             <div className="text-3xl font-bold">
               {formatCurrency(balance.balance)} {balance.currency}
@@ -308,19 +328,19 @@ const Ledger = () => {
           </div>
           <div className="bg-card border border-border rounded-lg p-6 shadow-sm">
             <h3 className="text-lg font-medium text-card-foreground mb-2">Total Expenses</h3>
-            <div className="text-2xl font-bold text-red-600">
+            <div className="text-2xl font-bold text-destructive">
               {formatCurrency(financialSummary.totalExpenses || 0)}
             </div>
           </div>
           <div className="bg-card border border-border rounded-lg p-6 shadow-sm">
             <h3 className="text-lg font-medium text-card-foreground mb-2">Net Balance</h3>
-            <div className={`text-2xl font-bold ${(financialSummary.netBalance || 0) >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+            <div className={`text-2xl font-bold ${(financialSummary.netBalance || 0) >= 0 ? 'text-green-600' : 'text-destructive'}`}>
               {formatCurrency(financialSummary.netBalance || 0)}
             </div>
           </div>
           <div className="bg-card border border-border rounded-lg p-6 shadow-sm">
             <h3 className="text-lg font-medium text-card-foreground mb-2">Transaction Count</h3>
-            <div className="text-2xl font-bold text-blue-600">
+            <div className="text-2xl font-bold text-primary">
               {financialSummary.transactionCount || 0}
             </div>
           </div>
@@ -469,14 +489,14 @@ const Ledger = () => {
           <div className="flex gap-2">
             <button
               onClick={exportAuditReport}
-              className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 text-sm"
+              className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 text-sm transition-colors"
               disabled={auditLoading || auditTrails.length === 0}
             >
               Export Report
             </button>
             <button
               onClick={loadAuditTrails}
-              className="px-4 py-2 bg-secondary text-secondary-foreground rounded-md hover:bg-secondary/80 text-sm"
+              className="px-4 py-2 bg-secondary text-secondary-foreground rounded-md hover:bg-secondary/80 text-sm transition-colors"
               disabled={auditLoading}
             >
               {auditLoading ? 'Loading...' : 'Refresh'}
@@ -533,7 +553,7 @@ const Ledger = () => {
           <div className="mt-4 flex justify-between items-center">
             <button
               onClick={() => setAuditFilters({ action: '', startDate: '', endDate: '', searchTerm: '' })}
-              className="px-4 py-2 bg-muted text-muted-foreground rounded-md hover:bg-muted/80 text-sm"
+              className="px-4 py-2 bg-muted text-muted-foreground rounded-md hover:bg-muted/80 text-sm transition-colors"
             >
               Clear Filters
             </button>
@@ -604,7 +624,7 @@ const Ledger = () => {
       <div className="mt-8 text-center">
         <button
           onClick={loadFinancialData}
-          className="px-6 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-ring"
+          className="px-6 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-ring transition-colors"
         >
           Refresh Data
         </button>

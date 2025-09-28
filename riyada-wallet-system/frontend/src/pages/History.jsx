@@ -47,6 +47,10 @@ const History = () => {
     
     setLoading(true);
     setError('');
+    
+    // Debug: Log user ID to understand the issue
+    console.log('Loading transactions for user ID:', user.id, 'Type:', typeof user.id);
+    
     try {
       // Use searchTransactions with filters if any filters are applied
       const hasFilters = filters.status || filters.transactionType || filters.startDate || filters.endDate;
@@ -54,6 +58,7 @@ const History = () => {
       let response;
       if (hasFilters) {
         // Use search with filters
+        console.log('Using search with filters:', filters);
         response = await ledgerAPI.searchTransactions(user.id, token, {
           ...filters,
           page: currentPage,
@@ -61,29 +66,38 @@ const History = () => {
         });
       } else {
         // Use regular pagination
+        console.log('Using regular pagination');
         response = await ledgerAPI.getUserTransactions(user.id, token, currentPage, pageSize);
       }
       
       if (response.success) {
+        console.log('Ledger service success, transactions:', response.transactions?.length);
         setTransactions(response.transactions || []);
         setTotalPages(response.totalPages || 0);
         setTotalElements(response.totalElements || 0);
       } else {
-        // Fallback to Payment Service for backward compatibility
-        console.log('Ledger Service not available, falling back to Payment Service');
+        console.log('Ledger service failed, trying fallback');
+        throw new Error(response.error || 'Ledger service failed');
+      }
+    } catch (error) {
+      console.error('Ledger service error:', error);
+      // If ledger service fails, try payment service fallback
+      try {
+        console.log('Falling back to Payment Service');
         const fallbackResponse = await paymentAPI.getUserPayments(user.id, token);
         
         if (fallbackResponse.success) {
+          console.log('Payment service fallback success, payments:', fallbackResponse.payments?.length);
           setTransactions(fallbackResponse.payments || []);
           setTotalPages(1);
           setTotalElements(fallbackResponse.payments?.length || 0);
         } else {
-          setError(fallbackResponse.error || response.error);
+          setError(fallbackResponse.error || 'Failed to load transaction history');
         }
+      } catch (fallbackError) {
+        setError('Failed to load transaction history');
+        console.error('Fallback also failed:', fallbackError);
       }
-    } catch (error) {
-      setError('Failed to load transaction history');
-      console.error('Failed to load transaction history:', error);
     } finally {
       setLoading(false);
     }

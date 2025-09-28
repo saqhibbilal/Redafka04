@@ -33,10 +33,16 @@ const Dashboard = () => {
     if (!user || !token) return;
     
     setLoadingTransactions(true);
+    
+    // Debug: Log user ID to understand the issue
+    console.log('Loading recent transactions for user ID:', user.id, 'Type:', typeof user.id);
+    
     try {
       const response = await ledgerAPI.getRecentTransactions(user.id, token, 5);
       if (response.success) {
         setRecentTransactions(response.transactions || []);
+      } else {
+        console.log('Recent transactions failed:', response.error);
       }
     } catch (error) {
       console.error('Failed to load recent transactions:', error);
