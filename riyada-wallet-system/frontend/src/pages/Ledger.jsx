@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
-import { ledgerAPI, walletAPI } from '../services/api';
+import { ledgerAPI, walletAPI, paymentAPI } from '../services/api';
 import { 
   PieChart, 
   Pie, 
@@ -49,6 +49,29 @@ const Ledger = () => {
     loadAuditTrails();
   }, [auditFilters]);
 
+  const calculateFinancialSummaryFromPayments = (transactions) => {
+    let totalIncome = 0;
+    let totalExpenses = 0;
+    
+    transactions.forEach(transaction => {
+      const amount = parseFloat(transaction.amount);
+      const isSent = transaction.senderUserId === user.id;
+      
+      if (isSent) {
+        totalExpenses += amount;
+      } else {
+        totalIncome += amount;
+      }
+    });
+    
+    return {
+      totalIncome,
+      totalExpenses,
+      netBalance: totalIncome - totalExpenses,
+      transactionCount: transactions.length
+    };
+  };
+
   const loadFinancialData = async () => {
     if (!user || !token) return;
     
@@ -65,18 +88,40 @@ const Ledger = () => {
         setFinancialSummary(summaryResponse.summary);
       } else {
         console.log('Financial summary failed:', summaryResponse.error);
+        // If financial summary fails, we'll calculate it from payment data later
       }
 
       // Load transaction categories data
       const categoriesResponse = await ledgerAPI.getUserTransactions(user.id, token, 0, 100);
       if (categoriesResponse.success) {
-        const transactions = categoriesResponse.transactions || [];
+        let transactions = categoriesResponse.transactions || [];
+        
+        // If ledger service returns 0 transactions, try payment service fallback
+        if (transactions.length === 0) {
+          console.log('Ledger service returned 0 transactions, trying payment service fallback for ledger data');
+          try {
+            const fallbackResponse = await paymentAPI.getUserPayments(user.id, token);
+            if (fallbackResponse.success) {
+              console.log('Payment service fallback success for ledger, payments:', fallbackResponse.payments?.length);
+              transactions = fallbackResponse.payments || [];
+            }
+          } catch (fallbackError) {
+            console.log('Payment service fallback failed for ledger:', fallbackError);
+          }
+        }
+        
         const categoryData = processTransactionCategories(transactions);
         setTransactionCategories(categoryData);
         
         // Process monthly data
         const monthlyData = processMonthlyData(transactions);
         setMonthlyData(monthlyData);
+        
+        // If we used payment service fallback and financial summary failed, calculate it from payment data
+        if (transactions.length > 0 && !financialSummary) {
+          const calculatedSummary = calculateFinancialSummaryFromPayments(transactions);
+          setFinancialSummary(calculatedSummary);
+        }
       } else {
         console.log('Transaction categories failed:', categoriesResponse.error);
       }

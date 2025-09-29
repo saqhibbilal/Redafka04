@@ -692,6 +692,48 @@ export const ledgerAPI = {
     }
   },
 
+  // Search transactions with filters
+  searchTransactions: async (userId, token, filters) => {
+    try {
+      const queryParams = new URLSearchParams();
+      
+      if (filters.status) queryParams.append('status', filters.status);
+      if (filters.transactionType) queryParams.append('transactionType', filters.transactionType);
+      if (filters.startDate) queryParams.append('startDate', filters.startDate);
+      if (filters.endDate) queryParams.append('endDate', filters.endDate);
+      if (filters.page !== undefined) queryParams.append('page', filters.page);
+      if (filters.size !== undefined) queryParams.append('size', filters.size);
+
+      const response = await apiRequest(`${LEDGER_SERVICE_URL}/search?${queryParams.toString()}`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      if (response.success) {
+        return {
+          success: true,
+          transactions: response.data.content || [],
+          totalElements: response.data.totalElements || 0,
+          totalPages: response.data.totalPages || 0,
+          currentPage: response.data.number || 0,
+          size: response.data.size || filters.size || 20
+        };
+      }
+      
+      return {
+        success: false,
+        error: response.message || 'Failed to search transactions'
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: error.message || 'Failed to search transactions'
+      };
+    }
+  },
+
   // Get financial summary for user
   getFinancialSummary: async (userId, token) => {
     try {

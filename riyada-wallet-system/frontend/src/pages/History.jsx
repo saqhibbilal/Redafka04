@@ -42,6 +42,45 @@ const History = () => {
     loadTransactions();
   }, [filters]);
 
+  const applyClientSideFilters = (transactions, filters) => {
+    return transactions.filter(transaction => {
+      // Status filter
+      if (filters.status && transaction.status !== filters.status) {
+        return false;
+      }
+      
+      // Transaction type filter
+      if (filters.transactionType) {
+        const isSent = transaction.senderUserId === user.id;
+        if (filters.transactionType === 'TRANSFER' && !isSent) {
+          return false;
+        }
+        if (filters.transactionType === 'DEPOSIT' && isSent) {
+          return false;
+        }
+      }
+      
+      // Date filters
+      if (filters.startDate) {
+        const transactionDate = new Date(transaction.createdAt);
+        const startDate = new Date(filters.startDate);
+        if (transactionDate < startDate) {
+          return false;
+        }
+      }
+      
+      if (filters.endDate) {
+        const transactionDate = new Date(transaction.createdAt);
+        const endDate = new Date(filters.endDate + 'T23:59:59');
+        if (transactionDate > endDate) {
+          return false;
+        }
+      }
+      
+      return true;
+    });
+  };
+
   const loadTransactions = async () => {
     if (!user || !token) return;
     
@@ -51,9 +90,10 @@ const History = () => {
     // Debug: Log user ID to understand the issue
     console.log('Loading transactions for user ID:', user.id, 'Type:', typeof user.id);
     
+    // Use searchTransactions with filters if any filters are applied
+    const hasFilters = filters.status || filters.transactionType || filters.startDate || filters.endDate;
+    
     try {
-      // Use searchTransactions with filters if any filters are applied
-      const hasFilters = filters.status || filters.transactionType || filters.startDate || filters.endDate;
       
       let response;
       if (hasFilters) {
@@ -72,6 +112,11 @@ const History = () => {
       
       if (response.success) {
         console.log('Ledger service success, transactions:', response.transactions?.length);
+        // If ledger service returns 0 transactions, try payment service fallback
+        if (response.transactions?.length === 0) {
+          console.log('Ledger service returned 0 transactions, trying payment service fallback');
+          throw new Error('No transactions in ledger service');
+        }
         setTransactions(response.transactions || []);
         setTotalPages(response.totalPages || 0);
         setTotalElements(response.totalElements || 0);
@@ -88,9 +133,17 @@ const History = () => {
         
         if (fallbackResponse.success) {
           console.log('Payment service fallback success, payments:', fallbackResponse.payments?.length);
-          setTransactions(fallbackResponse.payments || []);
+          let filteredPayments = fallbackResponse.payments || [];
+          
+          // Apply client-side filtering for payment service data
+          if (hasFilters) {
+            console.log('Applying client-side filters to payment data:', filters);
+            filteredPayments = applyClientSideFilters(filteredPayments, filters);
+          }
+          
+          setTransactions(filteredPayments);
           setTotalPages(1);
-          setTotalElements(fallbackResponse.payments?.length || 0);
+          setTotalElements(filteredPayments.length);
         } else {
           setError(fallbackResponse.error || 'Failed to load transaction history');
         }
@@ -300,7 +353,7 @@ const History = () => {
               <div className="text-red-600 text-center">{error}</div>
               <div className="text-center mt-2">
                 <button 
-                  onClick={loadPaymentHistory}
+                  onClick={loadTransactions}
                   className="text-blue-600 hover:text-blue-800 underline"
                 >
                   Try again

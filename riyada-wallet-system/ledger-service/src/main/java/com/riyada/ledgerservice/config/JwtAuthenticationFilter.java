@@ -54,14 +54,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     return;
                 }
 
-                String userId = claims.getSubject();
+                String email = claims.getSubject();
+                String userId = claims.get("userId", String.class);
                 if (userId != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                     UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                             userId,
                             null,
                             Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER")));
                     SecurityContextHolder.getContext().setAuthentication(authToken);
-                    logger.debug("JWT authentication successful for user: {}", userId);
+                    logger.debug("JWT authentication successful for user: {} (email: {})", userId, email);
                 }
             } catch (Exception e) {
                 logger.error("JWT authentication failed", e);
